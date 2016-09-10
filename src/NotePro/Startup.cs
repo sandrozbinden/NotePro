@@ -7,6 +7,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NotePro.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using NotePro.Data;
+using Microsoft.EntityFrameworkCore;
+using NotePro.Services;
+
 
 namespace NotePro
 {
@@ -33,10 +39,27 @@ namespace NotePro
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(opt => opt.UseInMemoryDatabase());
+
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireUppercase = false;
+            })
+                        .AddEntityFrameworkStores<ApplicationDbContext>()
+                        .AddDefaultTokenProviders();
 
+            services.AddSession();
             services.AddMvc();
+
+            // Add application services.
+            services.AddTransient<IEmailSender, AuthMessageSender>();
+            services.AddTransient<ISmsSender, AuthMessageSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -58,7 +81,7 @@ namespace NotePro
             }
 
             app.UseApplicationInsightsExceptionTelemetry();
-
+            app.UseIdentity();
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
