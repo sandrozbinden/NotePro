@@ -13,6 +13,9 @@ namespace NotePro.Data
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+
+        public virtual DbSet<Todo> Todos { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
         {
 

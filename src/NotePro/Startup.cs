@@ -50,9 +50,7 @@ namespace NotePro
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequiredLength = 4;
                 options.Password.RequireUppercase = false;
-            })
-                        .AddEntityFrameworkStores<ApplicationDbContext>()
-                        .AddDefaultTokenProviders();
+            }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
             services.AddSession();
             services.AddMvc();
