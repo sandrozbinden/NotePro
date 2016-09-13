@@ -13,7 +13,7 @@ using NotePro.Data;
 using Microsoft.EntityFrameworkCore;
 using NotePro.Services;
 
-
+//Niklaus 
 namespace NotePro
 {
     public class Startup
