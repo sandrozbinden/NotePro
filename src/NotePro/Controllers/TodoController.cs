@@ -38,8 +38,8 @@ namespace NotePro.Controllers
             if (ModelState.IsValid)
             {
                 var todo = new Todo() { Title = newTodo.Title, Text = newTodo.Text};
-//                context.Todos.Add(todo);
-//              context.SaveChanges();
+                context.Todos.Add(todo);
+                context.SaveChanges();
                 
                 return PartialView("Create", newTodo);
             }
