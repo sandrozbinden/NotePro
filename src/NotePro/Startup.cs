@@ -86,7 +86,7 @@ namespace NotePro
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Todo}/{action=List}/{id?}");
             });
         }
     }

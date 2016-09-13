@@ -1,0 +1,26 @@
+﻿@model List<NotePro.Models.Todo>
+
+<div class="container">
+    <div class="jumbotron">
+        <h1>NotePro</h1>
+        <p>The most amazing online notes application managmenet system. Created to change your life.</p>
+    </div>
+    <div class="row">
+        <div class="col-md-6"><a asp-action="Create" asp-controller="Todo" class="btn btn-default">Create a new Node</a></div>
+        <div class="col-md-6">
+            <span class="pull-right">
+                <select class="form-control" id="sel1">
+                    <option>Black-White Style</option>
+                    <option>Black-Blue Style</option>
+                </select>
+            </span>
+        </div>
+        <div>
+            @foreach (var todo in @Model)
+            {
+                <div>@(todo.Title)</div>
+            }
+        </div>
+    </div>
+</div>
+

@@ -41,12 +41,17 @@ namespace NotePro.Controllers
                 context.Todos.Add(todo);
                 context.SaveChanges();
                 
-                return RedirectToAction("Index","Home");
+                return RedirectToAction("List");
             }
             else
             {
                 return BadRequest();
             }
+        }
+
+        public IActionResult List()
+        {
+            return View("List", context.Todos.ToList());
         }
 
     }
