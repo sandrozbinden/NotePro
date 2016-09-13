@@ -41,7 +41,7 @@ namespace NotePro.Controllers
                 context.Todos.Add(todo);
                 context.SaveChanges();
                 
-                return PartialView("Create", newTodo);
+                return RedirectToAction("Index","Home");
             }
             else
             {
