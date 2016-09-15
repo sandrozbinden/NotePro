@@ -19,6 +19,10 @@ namespace NotePro.Models.TodoViewModels
         [StringLength(1000, MinimumLength = 1)] //TODO change to unlimmited
         public string Text { get; set; }
 
+        public int Priority { get; set; } 
+
+        public DateTime FinishDate { get; set; }
+
     }
 
 }

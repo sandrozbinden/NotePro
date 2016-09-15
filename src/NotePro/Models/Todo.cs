@@ -18,9 +18,12 @@ namespace NotePro.Models
         public string Title { get; set; }
 
         public string Text { get; set; }
-
  
+        public int Priority { get; set; }
+
         public DateTime CreationDate { get; set; }
+
+        public DateTime FinishDate { get; set; }
 
         public Todo()
         {
