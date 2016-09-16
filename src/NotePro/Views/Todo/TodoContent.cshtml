@@ -31,9 +31,11 @@
                 <span asp-validation-for="FinishDate" class="text-danger" />
             </div>
             <script type="text/javascript">
-                        $(function () {
-                            $('#finishDate').datepicker({ "dateFormat": "yy-mm-dd" });
-                        });
+                $(function () {
+                    if ($('#finishDate').prop('type') != 'date') {
+                        $('#finishDate').datepicker({ "dateFormat": "yy-mm-dd" });
+                    }
+                });
             </script>
         </div>
     </div>
