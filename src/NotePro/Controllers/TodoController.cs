@@ -26,6 +26,11 @@ namespace NotePro.Controllers
             return View();
         }
 
+        public IActionResult Create()
+        {
+            return View();
+        }
+
         public IActionResult Edit(long id)
         {
             var todo = context.Todos.Where(x => x.Id == id).FirstOrDefault();
@@ -33,8 +38,19 @@ namespace NotePro.Controllers
             {
                 return NotFound();
             }
-            return View("Edit", todo);
+            var todoView = new NewTodoViewModel() { Id = todo.Id, Title = todo.Title, Text = todo.Text, FinishDate = todo.FinishDate, Priority = todo.Priority };
+            return View("Edit", todoView);
         }
+
+        public IActionResult Update(long id, NewTodoViewModel todoView)
+        {
+            var todo = new Todo() { Id = todoView.Id, Title = todoView.Title, Text = todoView.Text, FinishDate = todoView.FinishDate, Priority = todoView.Priority };
+            context.Todos.Update(todo);
+            context.SaveChanges();
+
+            return RedirectToAction("List");
+        }
+
 
 
 

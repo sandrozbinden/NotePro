@@ -1,0 +1,41 @@
+﻿@model NotePro.Models.TodoViewModels.NewTodoViewModel
+<div class="form-horizontal">
+    <h1>New Todo</h1>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="Title" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Title" class="form-control" />
+
+            <span asp-validation-for="Title" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Text" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Text" class="form-control" />
+            <span asp-validation-for="Text" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="Priority" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="Priority" class="form-control" />
+            <span asp-validation-for="Priority" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="FinishDate" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <div class="input-group date" data-provide="datepicker">
+                <input asp-for="FinishDate" id="finishDate" class="form-control" />
+                <span asp-validation-for="FinishDate" class="text-danger" />
+            </div>
+            <script type="text/javascript">
+                        $(function () {
+                            $('#finishDate').datepicker({ "dateFormat": "yy-mm-dd" });
+                        });
+            </script>
+        </div>
+    </div>
+</div>

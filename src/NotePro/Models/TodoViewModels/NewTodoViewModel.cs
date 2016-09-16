@@ -11,6 +11,8 @@ namespace NotePro.Models.TodoViewModels
 {
     public class NewTodoViewModel
     {
+        public long Id { get; set; }
+
         [Display(Name = "Title")]
         [StringLength(200, MinimumLength = 1)]
         public string Title { get; set; }

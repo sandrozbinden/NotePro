@@ -1,8 +1,16 @@
 ﻿@using Microsoft.AspNetCore.Mvc.ViewFeatures
 @using System;
 
-@model NotePro.Models.Todo
-<div>
-Title: @Html.DisplayFor(model => model.Title)
-Text: @Html.DisplayFor(model => model.Text)
-</div>
+@model NotePro.Models.TodoViewModels.NewTodoViewModel
+
+<form asp-action="Update"  asp-route-id="@(Model.Id)" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#content">
+    @Html.Partial("TodoContent")
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Save Changes" class="btn btn-default" />
+        </div>
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Discard Changes" class="btn btn-default" />
+        </div>
+    </div>
+</form>
