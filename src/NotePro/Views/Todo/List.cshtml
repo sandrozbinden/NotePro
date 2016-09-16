@@ -14,14 +14,20 @@
     </div>
     <div class="controlButton">
         <div class="filterButton">
+            @{ 
+                var sortOrder = Context.Request.Query["sortOrder"];
+                var finishDateCss = sortOrder == "finishDate" ? "btn-primary" : "";
+                var createdDateCss = sortOrder == "createdDate" || String.IsNullOrEmpty(sortOrder) ? "btn-primary" : "";
+                var priorityCss = sortOrder == "priority" ? "btn-primary" : "";
+            }
             <div >
-                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="finishDate" class="btn btn-default">By finish date</a>
+                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="finishDate" class="btn btn-default @(finishDateCss)">By finish date</a>
             </div>
             <div>
-                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="createdDate" class="btn btn-default">By created date</a>
+                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="createdDate" class="btn btn-default @(createdDateCss)">By created date</a>
             </div>
             <div>
-                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="priority" class="btn btn-default">By priority</a>
+                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="priority" class="btn btn-default  @(priorityCss)">By priority</a>
             </div>
         </div>
         <div>
