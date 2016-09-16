@@ -47,9 +47,15 @@
     {
         <div class="content">
             <div class="todoTitleRow">
-                <div>@(todo.FinishDate.Date)</div>
-                <div>@(todo.Title)</div>
-                <div>@(todo.Priority)</div>
+                <div id="todoFinisheDatedDiv">@(todo.FinishDate.Date)</div>
+                <div id="todoTitlePriorityDiv">
+                    <div id="todoTitleDiv"><label>@(todo.Title)</label></div>
+                    <div id="todoPriorityDiv">@(todo.Priority)</div>
+                </div>
+                <div id="todoEmptyDiv">
+
+                </div>
+
             </div>
             <div class="todoContentRow">
                 <div id="todoFinishedDiv"><input asp-for="@(todo.Finished)" /><label>Finished</label></div>
