@@ -19,52 +19,44 @@
         <h1>NotePro</h1>
         <p>The most amazing online notes application managmenet system. Created to change your life.</p>
     </div>
-    <div style="display:flex;justify-content: space-between; flex-flow:row nowrap;">
-        <a asp-action="Create" asp-controller="Todo" class="btn btn-default">Create a new Node</a>
-        <div>
-            <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="sortOrderParam" asp-route-showFinished="@(showFinished)" asp-route-layoutStyle="@(nextLayoutStyle)" class="btn btn-default @(finishDateCss)">Style Switcher</a>
-        </div>
-    </div>
-    <div class="controlButton">
-
-        <div class="filterButton">
+    <div class="control">
+        <div style="display:flex;justify-content: space-between; flex-flow:row nowrap;">
+            <a asp-action="Create" asp-controller="Todo" class="btn btn-default">Create a new Node</a>
             <div>
-                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="finishDate" asp-route-showFinished="@(showFinished)" class="btn btn-default @(finishDateCss)">By finish date</a>
-            </div>
-            <div>
-                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="createdDate" asp-route-showFinished="@(showFinished)" class="btn btn-default @(createdDateCss)">By created date</a>
-            </div>
-            <div>
-                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="priority" asp-route-showFinished="@(showFinished)" class="btn btn-default  @(priorityCss)">By priority</a>
+                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="sortOrderParam" asp-route-showFinished="@(showFinished)" asp-route-layoutStyle="@(nextLayoutStyle)" class="btn btn-default @(finishDateCss)">Style Switcher</a>
             </div>
         </div>
-        <div>
-            <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="@(sortOrderParam)" asp-route-showFinished="@(!showFinished)" class="btn btn-default  @(showFinishedCss)">@(showFinishedText)</a>
+        <div class="controlButton">
+            <div class="filterButton">
+                <div>
+                    <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="finishDate" asp-route-showFinished="@(showFinished)" class="btn btn-default @(finishDateCss)">By finish date</a>
+                </div>
+                <div>
+                    <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="createdDate" asp-route-showFinished="@(showFinished)" class="btn btn-default @(createdDateCss)">By created date</a>
+                </div>
+                <div>
+                    <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="priority" asp-route-showFinished="@(showFinished)" class="btn btn-default  @(priorityCss)">By priority</a>
+                </div>
+            </div>
+            <div>
+                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="@(sortOrderParam)" asp-route-showFinished="@(!showFinished)" class="btn btn-default  @(showFinishedCss)">@(showFinishedText)</a>
+            </div>
         </div>
     </div>
     @foreach (var todo in @Model)
-            {
-        <div class="row">
-            <div class="col-md-3">
+    {
+        <div class="content">
+            <div class="todoTitleRow">
                 <div>@(todo.FinishDate.Date)</div>
-            </div>
-            <div class="col-md-3">
                 <div>@(todo.Title)</div>
-            </div>
-            <div class="col-md-3">
                 <div>@(todo.Priority)</div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-3">
-                <div>Finished: @(todo.Finished)</div>
-            </div>
-            <div class="col-md-6">
-                <div>@(todo.Text)</div>
-            </div>
-            <div class="col-md-3">
-                <div><a asp-controller="Todo" asp-action="Edit" asp-route-id="@(todo.Id)">Edit</a></div>
+            <div class="todoContentRow">
+                <div id="todoFinishedDiv"><input asp-for="@(todo.Finished)" /><label>Finished</label></div>
+                <div id="todoTextDiv"><textarea disabled>@(todo.Text)</textarea></div>
+                <div id="todoEditDiv"><a asp-controller="Todo" asp-action="Edit" asp-route-id="@(todo.Id)" class="btn btn-default">Edit</a></div>
             </div>
         </div>
     }
+        
 </div>

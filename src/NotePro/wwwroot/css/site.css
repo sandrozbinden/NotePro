@@ -28,7 +28,7 @@ textarea {
     width: 100%;
 }
 
-button {
+a.btn {
     width: 150px;
 }
 
@@ -43,6 +43,7 @@ select {
         display: none;
     }
 }
+
 .layoutSelection {
     width: 150px;
 }
@@ -58,7 +59,52 @@ select {
     flex-flow: row wrap;
 }
 
+.todoTitleRow {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+}
+
+.todoContentRow {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    padding: 5px 5px 5px 5px;
+}
+
+#todoFinishedDiv {
+    flex-basis: 15%;
+    padding: 5px 5px 5px 5px;
+}
+
+#todoTextDiv {
+    flex-basis: 70%;
+    padding: 5px 5px 5px 5px;
+}
+
+    #todoTextDiv textarea {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+    }
+
+.content {
+    margin-top: 7px;
+    margin-bottom: 7px;
+}
+
+#todoEditDiv {
+    flex-basis: 15%;
+}
+
+#todoEditDiv a {
+    width: 100%;
+    height: 100%;
+}
+
+
 @media (max-width: 660px) {
+
     .controlButton {
         display: flex;
         flex-flow: column wrap;
@@ -67,16 +113,26 @@ select {
     .controlButton button {
         width: 100%;
     }
+
     .controlButton a {
         width: 100%;
     }
+
     .filterButton {
         display: flex;
         flex-flow: column wrap;
     }
-}
 
+    .todoContentRow {
+        display: flex;
+        flex-flow: column wrap;
+    }
 
-@media (max-width: 300px) {
+    #todoEditDiv a {
+        width: 150px;
+    }
 
+    .content {
+        border: 1px dashed darkgrey;
+    }
 }
