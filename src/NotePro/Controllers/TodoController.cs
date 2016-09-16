@@ -26,10 +26,18 @@ namespace NotePro.Controllers
             return View();
         }
 
-        public IActionResult Create()
+        public IActionResult Edit(long id)
         {
-            return View();
+            var todo = context.Todos.Where(x => x.Id == id).FirstOrDefault();
+            if (todo == null)
+            {
+                return NotFound();
+            }
+            return View("Edit", todo);
         }
+
+
+
 
         [ValidateAntiForgeryToken]
         [HttpPost]
