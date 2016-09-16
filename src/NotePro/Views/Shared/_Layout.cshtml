@@ -41,12 +41,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">NotePro</a>
+                <a asp-area="" asp-controller="Todo" asp-action="List" class="navbar-brand">NotePro</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Order" asp-action="Create">Neue Bestellung</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                     @RenderSection("header", required: false)
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
