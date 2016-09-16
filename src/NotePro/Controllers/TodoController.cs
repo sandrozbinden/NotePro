@@ -37,7 +37,7 @@ namespace NotePro.Controllers
         {
             if (ModelState.IsValid)
             {
-                var todo = new Todo() { Title = newTodo.Title, Text = newTodo.Text};
+                var todo = new Todo() { Title = newTodo.Title, Text = newTodo.Text, FinishDate= newTodo.FinishDate, Priority = newTodo.Priority};
                 context.Todos.Add(todo);
                 context.SaveChanges();
                 
