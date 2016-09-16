@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using NotePro.Data;
 using Microsoft.EntityFrameworkCore;
 using NotePro.Services;
+using NotePro.Migrations;
 
 //Niklaus 
 namespace NotePro
@@ -66,6 +67,7 @@ namespace NotePro
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
+            new ApplicationDbContextSeedData(app.ApplicationServices.GetService<ApplicationDbContext>()).SeedData(); //Use DI properly?
             app.UseApplicationInsightsRequestTelemetry();
 
             if (env.IsDevelopment())
