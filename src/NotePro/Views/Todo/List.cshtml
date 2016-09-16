@@ -5,22 +5,26 @@
         <h1>NotePro</h1>
         <p>The most amazing online notes application managmenet system. Created to change your life.</p>
     </div>
-    <div class="row">
-        <div class="col-md-9"><a asp-action="Create" asp-controller="Todo" class="btn btn-default">Create a new Node</a></div>
-        <div class="col-md-3 pull-right">
-            <select class="form-control" id="sel1">
-                <option>Black-White Style</option>
-                <option>Black-Blue Style</option>
-            </select>
-        </div>
+    <div style="display:flex;justify-content: space-between; flex-flow:row nowrap;">
+        <a asp-action="Create" asp-controller="Todo" class="btn btn-default">Create a new Node</a>
+        <select class="form-control layoutSelection" id="sel1">
+            <option>Black-White Style</option>
+            <option>Black-Blue Style</option>
+        </select>
     </div>
-    <div class="row">
-        <div class="col-md-9">
-            <button class="btn btn-default btn-primary">By finish date</button>
-            <button class="btn btn-default">By created date</button>
-            <button class="btn btn-default">By importance</button>
+    <div class="controlButton">
+        <div class="filterButton">
+            <div >
+                <button class="btn btn-default btn-primary">By finish date</button>
+            </div>
+            <div>
+                <button class="btn btn-default">By created date</button>
+            </div>
+            <div>
+                <button class="btn btn-default">By importance</button>
+            </div>
         </div>
-        <div class="col-md-3 pull-right">
+        <div>
             <button class="btn btn-default">Show finished</button>
         </div>
     </div>
@@ -45,7 +49,7 @@
                 <div>@(todo.Text)</div>
             </div>
             <div class="col-md-3">
-                <div><a asp-controller="Todo" asp-action="Edit"  asp-route-id="@(todo.Id)">Edit</a></div>
+                <div><a asp-controller="Todo" asp-action="Edit" asp-route-id="@(todo.Id)">Edit</a></div>
             </div>
         </div>
     }
