@@ -15,13 +15,13 @@
     <div class="controlButton">
         <div class="filterButton">
             <div >
-                <button class="btn btn-default btn-primary">By finish date</button>
+                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="finishDate" class="btn btn-default">By finish date</a>
             </div>
             <div>
-                <button class="btn btn-default">By created date</button>
+                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="createdDate" class="btn btn-default">By created date</a>
             </div>
             <div>
-                <button class="btn btn-default">By importance</button>
+                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="priority" class="btn btn-default">By priority</a>
             </div>
         </div>
         <div>

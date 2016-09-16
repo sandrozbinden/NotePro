@@ -22,10 +22,24 @@ namespace NotePro.Migrations
             {
                     new Todo
                     {
-                        Title = "Call my wife",
+                        Title = "Call wife",
                         Text = "Organise dinner party with friends",
                         Priority = 4,
                         FinishDate =  new DateTime(DateTime.Now.Year, 5, 15)
+                    },
+                    new Todo
+                    {
+                        Title = "E-Mail boss",
+                        Text = "Ask about c# conferences",
+                        Priority = 3,
+                        FinishDate =  new DateTime(DateTime.Now.Year, 5, 18)
+                    },
+                    new Todo
+                    {
+                        Title = "Call travel agency",
+                        Text = "Extend vacation package (058 702 66 50)",
+                        Priority = 5,
+                        FinishDate =  new DateTime(DateTime.Now.Year, 5, 16)
                     }
             };
             context.AddRange(todos);

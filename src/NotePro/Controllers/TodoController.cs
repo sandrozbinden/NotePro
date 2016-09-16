@@ -73,9 +73,16 @@ namespace NotePro.Controllers
             }
         }
 
-        public IActionResult List()
+        public IActionResult List(string sortOrder)
         {
-            return View("List", context.Todos.ToList());
+            switch (sortOrder)
+            {
+                case "finishDate": return View("List", context.Todos.OrderBy(todo => todo.FinishDate).ToList());
+                case "createdDate": return View("List", context.Todos.OrderBy(todo => todo.CreationDate).ToList());
+                case "priority": return View("List", context.Todos.OrderByDescending(todo => todo.Priority).ToList());
+                default: return View("List", context.Todos.ToList());
+            }
+            
         }
 
     }
