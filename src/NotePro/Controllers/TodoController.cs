@@ -47,11 +47,18 @@ namespace NotePro.Controllers
 
         public IActionResult Update(long id, NewTodoViewModel todoView)
         {
-            var todo = new Todo() { Id = todoView.Id, Title = todoView.Title, Text = todoView.Text, FinishDate = todoView.FinishDate, Priority = todoView.Priority, Finished = todoView.Finished };
-            context.Todos.Update(todo);
-            context.SaveChanges();
+            if (ModelState.IsValid)
+            {
+                var todo = new Todo() { Id = todoView.Id, Title = todoView.Title, Text = todoView.Text, FinishDate = todoView.FinishDate, Priority = todoView.Priority, Finished = todoView.Finished };
+                context.Todos.Update(todo);
+                context.SaveChanges();
 
-            return RedirectToAction("List");
+                return RedirectToAction("List");
+            }
+            else
+            {
+                return BadRequest();
+            }
         }
 
 
