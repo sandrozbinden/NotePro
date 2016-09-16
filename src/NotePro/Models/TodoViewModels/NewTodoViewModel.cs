@@ -14,13 +14,15 @@ namespace NotePro.Models.TodoViewModels
         public long Id { get; set; }
 
         [Display(Name = "Title")]
+        [Required]
         [StringLength(200, MinimumLength = 1)]
         public string Title { get; set; }
 
         [Display(Name = "Text")]
-        [StringLength(1000, MinimumLength = 1)] //TODO change to unlimmited
         public string Text { get; set; }
 
+        [Required]
+        [Range(1, 5)]
         public int Priority { get; set; }
 
         
