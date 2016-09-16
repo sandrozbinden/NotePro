@@ -1,4 +1,18 @@
 ﻿@model List<NotePro.Models.Todo>
+@{
+    var layoutStyle = new Byte[20];
+    bool layoutStyleRead = Context.Session.TryGetValue("Application.LayoutStyle", out layoutStyle);
+    var isBlackAndBlueStyle = layoutStyleRead == true && System.Text.Encoding.UTF8.GetString(layoutStyle) == "blackBlue";
+    var nextLayoutStyle = isBlackAndBlueStyle ? "blackWhite" : "blackBlue";
+    var showFinishedParam = Context.Request.Query["showFinished"];
+    var showFinished = String.IsNullOrEmpty(showFinishedParam) || showFinishedParam == "False" ? false : true;
+    var showFinishedText = showFinished ? "Hide Finished" : "Show Finished";
+    var showFinishedCss = showFinished ? "btn-primary" : "";
+    var sortOrderParam = Context.Request.Query["sortOrder"];
+    var finishDateCss = sortOrderParam == "finishDate" ? "btn-primary" : "";
+    var createdDateCss = sortOrderParam == "createdDate" || String.IsNullOrEmpty(sortOrderParam) ? "btn-primary" : "";
+    var priorityCss = sortOrderParam == "priority" ? "btn-primary" : "";
+}
 
 <div class="container">
     <div class="jumbotron">
@@ -7,24 +21,14 @@
     </div>
     <div style="display:flex;justify-content: space-between; flex-flow:row nowrap;">
         <a asp-action="Create" asp-controller="Todo" class="btn btn-default">Create a new Node</a>
-        <select class="form-control layoutSelection" id="sel1">
-            <option>Black-White Style</option>
-            <option>Black-Blue Style</option>
-        </select>
+        <div>
+            <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="sortOrderParam" asp-route-showFinished="@(showFinished)" asp-route-layoutStyle="@(nextLayoutStyle)" class="btn btn-default @(finishDateCss)">Style Switcher</a>
+        </div>
     </div>
     <div class="controlButton">
-        @{
-            var showFinishedParam = Context.Request.Query["showFinished"];
-            var showFinished = String.IsNullOrEmpty(showFinishedParam) || showFinishedParam == "False" ? false : true;
-            var showFinishedText = showFinished ? "Hide Finished" : "Show Finished";
-            var showFinishedCss = showFinished ? "btn-primary" : "";
-            var sortOrderParam = Context.Request.Query["sortOrder"];
-            var finishDateCss = sortOrderParam == "finishDate" ? "btn-primary" : "";
-            var createdDateCss = sortOrderParam == "createdDate" || String.IsNullOrEmpty(sortOrderParam) ? "btn-primary" : "";
-            var priorityCss = sortOrderParam == "priority" ? "btn-primary" : "";
-        }
+
         <div class="filterButton">
-            <div >
+            <div>
                 <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="finishDate" asp-route-showFinished="@(showFinished)" class="btn btn-default @(finishDateCss)">By finish date</a>
             </div>
             <div>

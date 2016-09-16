@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using NotePro.Models.TodoViewModels;
 using NotePro.Models;
 using NotePro.Data;
+using Microsoft.AspNetCore.Http;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,9 +15,11 @@ namespace NotePro.Controllers
     public class TodoController : Controller
     {
         private readonly ApplicationDbContext context;
+        private IHttpContextAccessor httpContextAccessor;
 
-        public TodoController(ApplicationDbContext context)
+        public TodoController(IHttpContextAccessor httpContextAccessor, ApplicationDbContext context)
         {
+            this.httpContextAccessor = httpContextAccessor;
             this.context = context;
         }
 
@@ -73,8 +76,12 @@ namespace NotePro.Controllers
             }
         }
 
-        public IActionResult List(string sortOrder, bool showFinished)
+        public IActionResult List(string sortOrder, bool showFinished, string layoutStyle)
         {
+            if (!String.IsNullOrEmpty(layoutStyle))
+            {
+                httpContextAccessor.HttpContext.Session.SetString("Application.LayoutStyle", layoutStyle);
+            }
             switch (sortOrder)
             {
                 case "finishDate": return View("List", context.Todos.Where(todo => todo.Finished == false || todo.Finished ==  showFinished).OrderBy(todo => todo.FinishDate).ToList());

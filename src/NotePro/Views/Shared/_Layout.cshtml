@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var layoutStyle = new Byte[20];
+    bool layoutStyleRead = Context.Session.TryGetValue("Application.LayoutStyle", out layoutStyle);
+    var isBlackAndBlueStyle = layoutStyleRead == true && System.Text.Encoding.UTF8.GetString(layoutStyle) == "blackBlue";
+}   
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -36,6 +42,10 @@
               asp-fallback-href="~/lib/jquery-ui/themes/redmond/jquery-ui.css"
               asp-fallback-test-class="ui-tabs">
     </environment>
+    @if (isBlackAndBlueStyle)
+    {
+        <link rel="stylesheet" href="~/css/theme_black_blue.css" />
+    }
     @Html.ApplicationInsightsJavaScript(TelemetryConfiguration)
 </head>
 <body>

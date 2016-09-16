@@ -52,7 +52,7 @@ namespace NotePro
                 options.Password.RequiredLength = 4;
                 options.Password.RequireUppercase = false;
             }).AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
-
+            services.AddDistributedMemoryCache();
             services.AddSession();
             services.AddMvc();
 
@@ -83,7 +83,7 @@ namespace NotePro
             app.UseApplicationInsightsExceptionTelemetry();
             app.UseIdentity();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
