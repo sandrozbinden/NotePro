@@ -25,6 +25,8 @@ namespace NotePro.Models
 
         public DateTime FinishDate { get; set; }
 
+        public bool Finished { get; set; }
+
         public Todo()
         {
             CreationDate = DateTime.Now;

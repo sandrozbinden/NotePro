@@ -38,13 +38,13 @@ namespace NotePro.Controllers
             {
                 return NotFound();
             }
-            var todoView = new NewTodoViewModel() { Id = todo.Id, Title = todo.Title, Text = todo.Text, FinishDate = todo.FinishDate, Priority = todo.Priority };
+            var todoView = new NewTodoViewModel() { Id = todo.Id, Title = todo.Title, Text = todo.Text, FinishDate = todo.FinishDate, Priority = todo.Priority, Finished = todo.Finished };
             return View("Edit", todoView);
         }
 
         public IActionResult Update(long id, NewTodoViewModel todoView)
         {
-            var todo = new Todo() { Id = todoView.Id, Title = todoView.Title, Text = todoView.Text, FinishDate = todoView.FinishDate, Priority = todoView.Priority };
+            var todo = new Todo() { Id = todoView.Id, Title = todoView.Title, Text = todoView.Text, FinishDate = todoView.FinishDate, Priority = todoView.Priority, Finished = todoView.Finished };
             context.Todos.Update(todo);
             context.SaveChanges();
 
@@ -61,7 +61,7 @@ namespace NotePro.Controllers
         {
             if (ModelState.IsValid)
             {
-                var todo = new Todo() { Title = newTodo.Title, Text = newTodo.Text, FinishDate= newTodo.FinishDate, Priority = newTodo.Priority};
+                var todo = new Todo() { Title = newTodo.Title, Text = newTodo.Text, FinishDate= newTodo.FinishDate, Priority = newTodo.Priority, Finished = newTodo.Finished};
                 context.Todos.Add(todo);
                 context.SaveChanges();
                 
@@ -73,14 +73,14 @@ namespace NotePro.Controllers
             }
         }
 
-        public IActionResult List(string sortOrder)
+        public IActionResult List(string sortOrder, bool showFinished)
         {
             switch (sortOrder)
             {
-                case "finishDate": return View("List", context.Todos.OrderBy(todo => todo.FinishDate).ToList());
-                case "createdDate": return View("List", context.Todos.OrderBy(todo => todo.CreationDate).ToList());
-                case "priority": return View("List", context.Todos.OrderByDescending(todo => todo.Priority).ToList());
-                default: return View("List", context.Todos.ToList());
+                case "finishDate": return View("List", context.Todos.Where(todo => todo.Finished == false || todo.Finished ==  showFinished).OrderBy(todo => todo.FinishDate).ToList());
+                case "priority": return View("List", context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderByDescending(todo => todo.Priority).ToList());
+                case "createdDate": 
+                default: return View("List", context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.CreationDate).ToList());
             }
             
         }

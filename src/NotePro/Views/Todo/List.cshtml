@@ -13,13 +13,17 @@
         </select>
     </div>
     <div class="controlButton">
+        @{
+            var showFinishedParam = Context.Request.Query["showFinished"];
+            var showFinished = String.IsNullOrEmpty(showFinishedParam) || showFinishedParam == "False" ? false : true;
+            var showFinishedText = showFinished ? "Hide Finished" : "Show Finished";
+            var showFinishedCss = showFinished ? "btn-primary" : "";
+            var sortOrderParam = Context.Request.Query["sortOrder"];
+            var finishDateCss = sortOrderParam == "finishDate" ? "btn-primary" : "";
+            var createdDateCss = sortOrderParam == "createdDate" || String.IsNullOrEmpty(sortOrderParam) ? "btn-primary" : "";
+            var priorityCss = sortOrderParam == "priority" ? "btn-primary" : "";
+        }
         <div class="filterButton">
-            @{ 
-                var sortOrder = Context.Request.Query["sortOrder"];
-                var finishDateCss = sortOrder == "finishDate" ? "btn-primary" : "";
-                var createdDateCss = sortOrder == "createdDate" || String.IsNullOrEmpty(sortOrder) ? "btn-primary" : "";
-                var priorityCss = sortOrder == "priority" ? "btn-primary" : "";
-            }
             <div >
                 <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="finishDate" class="btn btn-default @(finishDateCss)">By finish date</a>
             </div>
@@ -31,7 +35,7 @@
             </div>
         </div>
         <div>
-            <button class="btn btn-default">Show finished</button>
+            <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="@(sortOrderParam)" asp-route-showFinished="@(!showFinished)" class="btn btn-default  @(showFinishedCss)">@(showFinishedText)</a>
         </div>
     </div>
     @foreach (var todo in @Model)
@@ -49,7 +53,7 @@
         </div>
         <div class="row">
             <div class="col-md-3">
-                <div>[] Finished</div>
+                <div>Finished: @(todo.Finished)</div>
             </div>
             <div class="col-md-6">
                 <div>@(todo.Text)</div>

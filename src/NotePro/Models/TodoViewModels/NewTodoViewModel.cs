@@ -30,6 +30,8 @@ namespace NotePro.Models.TodoViewModels
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime FinishDate { get; set; }
 
+        public bool Finished { get; set; }
+
     }
 
 }
