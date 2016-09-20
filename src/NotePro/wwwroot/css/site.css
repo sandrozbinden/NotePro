@@ -17,13 +17,13 @@ textarea {
     flex :1 1 auto;
 }
 
-.row {
+.np-row {
     display: flex;
     justify-content: space-between;
     flex-flow: row wrap;
 }
 
-.row a {
+.np-row a {
     flex : 0 1 150px;
 }
 
@@ -89,12 +89,12 @@ textarea {
     height: 100%;
 }
 @media (max-width: 660px) {
-    .collapsable-row  {
+    .np-collapsable-row  {
         display: flex;
         flex-flow: column wrap;
     }
 
-    .collapsable-row a {
+    .np-collapsable-row a {
         width: 100%;
         flex : 0 1 100%;
     }

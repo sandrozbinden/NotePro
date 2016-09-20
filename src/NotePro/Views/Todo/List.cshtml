@@ -13,12 +13,12 @@
         <h1>NotePro</h1>
         <p>The most amazing online notes application managmenet system. Created to change your life.</p>
     </div>
-    <div class="row">
+    <div class="np-row">
         <a asp-action="Create" asp-controller="Todo" class="btn btn-default">Create a new Node</a>
         <div class="splitter"></div>
         <a asp-action="ToggleLayout" asp-controller="Todo" class="btn btn-default">Style Switcher</a>
     </div>
-    <div class="row collapsable-row">
+    <div class="np-row np-collapsable-row">
         <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.FinishDate" class="btn btn-default @(finishDateCss)">By finish date</a>
         <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.CreatedDate" class="btn btn-default @(createdDateCss)">By created date</a>
         <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.Priority" class="btn btn-default  @(priorityCss)">By priority</a>
