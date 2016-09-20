@@ -83,21 +83,47 @@ namespace NotePro.Controllers
             }
         }
 
-        public IActionResult List(string sortOrder, bool showFinished, string layoutStyle)
+        public IActionResult Sort(string sortOrder)
         {
-            if (!String.IsNullOrEmpty(layoutStyle))
-            {
-                httpContextAccessor.HttpContext.Session.SetString("Application.LayoutStyle", layoutStyle);
-            }
-            switch (sortOrder)
-            {
-                case "finishDate": return View("List", context.Todos.Where(todo => todo.Finished == false || todo.Finished ==  showFinished).OrderBy(todo => todo.FinishDate).ToList());
-                case "priority": return View("List", context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderByDescending(todo => todo.Priority).ToList());
-                case "createdDate": 
-                default: return View("List", context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.CreationDate).ToList());
-            }
-            
+            httpContextAccessor.HttpContext.Session.SetString("Todos.SortOrder", sortOrder);
+            return List();
         }
 
+        public IActionResult ToggleLayout()
+        {
+            var session = httpContextAccessor.HttpContext.Session;
+            var defaultLayout = session.GetInt32("Application.DefaultLayout") == null ? true : Convert.ToBoolean(session.GetInt32("Application.DefaultLayout"));
+            httpContextAccessor.HttpContext.Session.SetInt32("Application.DefaultLayout", Convert.ToInt32(!defaultLayout));
+            return List();
+        }
+    
+        public IActionResult ToggleShowFinished()
+        {
+            var session = httpContextAccessor.HttpContext.Session; 
+            var showFinished = session.GetInt32("Todos.ShowFinished") == null ? false : Convert.ToBoolean(session.GetInt32("Todos.ShowFinished"));
+            httpContextAccessor.HttpContext.Session.SetInt32("Todos.ShowFinished", Convert.ToInt32(!showFinished));
+            return List(); 
+        }
+
+
+        public IActionResult List()
+        {
+            var session = httpContextAccessor.HttpContext.Session;
+            var sortOrder = session.GetString("Todos.SortOrder") == null ? "finishDate" : session.GetString("Todos.SortOrder");
+            var showFinished = session.GetInt32("Todos.ShowFinished") == null ? false : Convert.ToBoolean(session.GetInt32("Todos.ShowFinished"));
+            var todos = findTodos(sortOrder, showFinished);
+            return View("List", new TodoListViewModel { Todos = todos,SortOrder =sortOrder,  ShowFinished = showFinished});
+        }
+
+        private List<Todo> findTodos(string sortOrder, bool showFinished)
+        {
+            switch (sortOrder)
+            {
+                case "finishDate": return context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.FinishDate).ToList();
+                case "priority": return context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderByDescending(todo => todo.Priority).ToList();
+                case "createdDate":
+                default: return context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.CreationDate).ToList();
+            }
+        }
     }
 }

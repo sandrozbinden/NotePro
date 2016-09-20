@@ -1,17 +1,10 @@
-﻿@model List<NotePro.Models.Todo>
+﻿@model NotePro.Models.TodoViewModels.TodoListViewModel
 @{
-    var layoutStyle = new Byte[20];
-    bool layoutStyleRead = Context.Session.TryGetValue("Application.LayoutStyle", out layoutStyle);
-    var isBlackAndBlueStyle = layoutStyleRead == true && System.Text.Encoding.UTF8.GetString(layoutStyle) == "blackBlue";
-    var nextLayoutStyle = isBlackAndBlueStyle ? "blackWhite" : "blackBlue";
-    var showFinishedParam = Context.Request.Query["showFinished"];
-    var showFinished = String.IsNullOrEmpty(showFinishedParam) || showFinishedParam == "False" ? false : true;
-    var showFinishedText = showFinished ? "Hide Finished" : "Show Finished";
-    var showFinishedCss = showFinished ? "btn-primary" : "";
-    var sortOrderParam = Context.Request.Query["sortOrder"];
-    var finishDateCss = sortOrderParam == "finishDate" ? "btn-primary" : "";
-    var createdDateCss = sortOrderParam == "createdDate" || String.IsNullOrEmpty(sortOrderParam) ? "btn-primary" : "";
-    var priorityCss = sortOrderParam == "priority" ? "btn-primary" : "";
+    var showFinishedText = @Model.ShowFinished ? "Hide Finished" : "Show Finished";
+    var showFinishedCss = @Model.ShowFinished ? "btn-primary" : "";
+    var finishDateCss = @Model.SortOrder == "finishDate" ? "btn-primary" : "";
+    var createdDateCss = @Model.SortOrder == "createdDate" ? "btn-primary" : "";
+    var priorityCss = @Model.SortOrder  == "priority" ? "btn-primary" : "";
 }
 
 <div class="container">
@@ -23,27 +16,27 @@
         <div style="display:flex;justify-content: space-between; flex-flow:row nowrap;">
             <a asp-action="Create" asp-controller="Todo" class="btn btn-default">Create a new Node</a>
             <div>
-                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="sortOrderParam" asp-route-showFinished="@(showFinished)" asp-route-layoutStyle="@(nextLayoutStyle)" class="btn btn-default">Style Switcher</a>
+                <a asp-action="ToggleLayout" asp-controller="Todo" class="btn btn-default">Style Switcher</a>
             </div>
         </div>
         <div class="controlButton">
             <div class="filterButton">
                 <div>
-                    <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="finishDate" asp-route-showFinished="@(showFinished)" class="btn btn-default @(finishDateCss)">By finish date</a>
+                    <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="finishDate" class="btn btn-default @(finishDateCss)">By finish date</a>
                 </div>
                 <div>
-                    <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="createdDate" asp-route-showFinished="@(showFinished)" class="btn btn-default @(createdDateCss)">By created date</a>
+                    <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="createdDate" class="btn btn-default @(createdDateCss)">By created date</a>
                 </div>
                 <div>
-                    <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="priority" asp-route-showFinished="@(showFinished)" class="btn btn-default  @(priorityCss)">By priority</a>
+                    <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="priority" class="btn btn-default  @(priorityCss)">By priority</a>
                 </div>
             </div>
             <div>
-                <a asp-action="List" asp-controller="Todo" asp-route-sortOrder="@(sortOrderParam)" asp-route-showFinished="@(!showFinished)" class="btn btn-default  @(showFinishedCss)">@(showFinishedText)</a>
+                <a asp-action="ToggleShowFinished" asp-controller="Todo" class="btn btn-default @(showFinishedCss)">@(showFinishedText)</a>
             </div>
         </div>
     </div>
-    @foreach (var todo in @Model)
+    @foreach (var todo in @Model.Todos)
     {
         <div class="content">
             <div class="todoTitleRow">
@@ -66,6 +59,5 @@
                 <div id="todoEditDiv"><a asp-controller="Todo" asp-action="Edit" asp-route-id="@(todo.Id)" class="btn btn-default">Edit</a></div>
             </div>
         </div>
-    }
-        
+    }      
 </div>

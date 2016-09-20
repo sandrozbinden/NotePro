@@ -1,7 +1,7 @@
 ﻿@{
-    var layoutStyle = new Byte[20];
-    bool layoutStyleRead = Context.Session.TryGetValue("Application.LayoutStyle", out layoutStyle);
-    var isBlackAndBlueStyle = layoutStyleRead == true && System.Text.Encoding.UTF8.GetString(layoutStyle) == "blackBlue";
+    var defaultLayout = new Byte[20];
+    bool layoutStyleRead = Context.Session.TryGetValue("Application.DefaultLayout", out defaultLayout);
+    var isBlackAndBlueStyle = layoutStyleRead == true && !Convert.ToBoolean(BitConverter.ToInt32(defaultLayout, 0));
 }   
 
 <!DOCTYPE html>
