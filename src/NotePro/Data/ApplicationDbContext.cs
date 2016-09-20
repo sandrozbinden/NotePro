@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace NotePro.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
 
         public virtual DbSet<Todo> Todos { get; set; }
