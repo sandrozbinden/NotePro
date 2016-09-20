@@ -55,7 +55,12 @@
     .np-column-1 {
         flex : 1 1;
     }
-    
+    a.np-column-3 {
+        width: 150px;
+    }
+    div.np-column-3 {
+        display:none;
+    }
     .todoContentRow {
         display: flex;
         flex-flow: column wrap;
