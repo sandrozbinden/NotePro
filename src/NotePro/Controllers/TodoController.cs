@@ -83,11 +83,13 @@ namespace NotePro.Controllers
             }
         }
 
-        public IActionResult Sort(string sortOrder)
+        public IActionResult Sort(SortOrder sortOrder)
         {
-            httpContextAccessor.HttpContext.Session.SetString("Todos.SortOrder", sortOrder);
+            httpContextAccessor.HttpContext.Session.SetString("Todos.SortOrder", sortOrder.ToString());
             return List();
         }
+
+        
 
         public IActionResult ToggleLayout()
         {
@@ -109,20 +111,25 @@ namespace NotePro.Controllers
         public IActionResult List()
         {
             var session = httpContextAccessor.HttpContext.Session;
-            var sortOrder = session.GetString("Todos.SortOrder") == null ? "finishDate" : session.GetString("Todos.SortOrder");
+            var sortOrder = ParseEnum<SortOrder>(session.GetString("Todos.SortOrder") == null ? "finishDate" : session.GetString("Todos.SortOrder"));
             var showFinished = session.GetInt32("Todos.ShowFinished") == null ? false : Convert.ToBoolean(session.GetInt32("Todos.ShowFinished"));
             var todos = findTodos(sortOrder, showFinished);
             return View("List", new TodoListViewModel { Todos = todos,SortOrder =sortOrder,  ShowFinished = showFinished});
         }
 
-        private List<Todo> findTodos(string sortOrder, bool showFinished)
+        public static T ParseEnum<T>(string value)
+        {
+            return (T)Enum.Parse(typeof(T), value, true);
+        }
+
+        private List<Todo> findTodos(SortOrder sortOrder, bool showFinished)
         {
             switch (sortOrder)
             {
-                case "finishDate": return context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.FinishDate).ToList();
-                case "priority": return context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderByDescending(todo => todo.Priority).ToList();
-                case "createdDate":
-                default: return context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.CreationDate).ToList();
+                case SortOrder.FinishDate: return context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.FinishDate).ToList();
+                case SortOrder.Priority: return context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderByDescending(todo => todo.Priority).ToList();
+                case SortOrder.CreatedDate: return context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.CreationDate).ToList();
+                default: throw new System.InvalidOperationException("Can't find sortOrder for enum: " + sortOrder);
             }
         }
     }
