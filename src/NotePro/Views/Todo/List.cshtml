@@ -55,7 +55,7 @@
 
             </div>
             <div class="todoContentRow">
-                <div id="todoFinishedDiv"><input asp-for="@(todo.Finished)" /><label>Finished</label></div>
+                <div id="todoFinishedDiv"><input asp-for="@(todo.Finished)" disabled="disabled"/><label>Finished</label></div>
                 <div id="todoTextDiv"><textarea disabled>@(todo.Text)</textarea></div>
                 <div id="todoEditDiv"><a asp-controller="Todo" asp-action="Edit" asp-route-id="@(todo.Id)" class="btn btn-default">Edit</a></div>
             </div>

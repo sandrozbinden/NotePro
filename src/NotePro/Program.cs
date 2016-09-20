@@ -16,7 +16,7 @@ namespace NotePro
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                //.UseUrls(args)
+                .UseUrls(args)
                 .Build();
 
             host.Run();
