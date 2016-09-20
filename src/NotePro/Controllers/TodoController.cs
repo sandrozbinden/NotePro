@@ -41,11 +41,11 @@ namespace NotePro.Controllers
             {
                 return NotFound();
             }
-            var todoView = new NewTodoViewModel() { Id = todo.Id, Title = todo.Title, Text = todo.Text, FinishDate = todo.FinishDate, Priority = todo.Priority, Finished = todo.Finished };
+            var todoView = new TodoViewModel() { Id = todo.Id, Title = todo.Title, Text = todo.Text, FinishDate = todo.FinishDate, Priority = todo.Priority, Finished = todo.Finished };
             return View("Edit", todoView);
         }
 
-        public IActionResult Update(long id, NewTodoViewModel todoView)
+        public IActionResult Update(long id, TodoViewModel todoView)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +67,7 @@ namespace NotePro.Controllers
 
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult Create(NewTodoViewModel newTodo)
+        public IActionResult Create(TodoViewModel newTodo)
         {
             if (ModelState.IsValid)
             {

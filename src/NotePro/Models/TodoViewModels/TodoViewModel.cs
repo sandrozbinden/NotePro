@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace NotePro.Models.TodoViewModels
 {
-    public class NewTodoViewModel
+    public class TodoViewModel
     {
         public long Id { get; set; }
 
