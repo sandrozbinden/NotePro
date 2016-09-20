@@ -22,7 +22,7 @@
         <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.FinishDate" class="btn btn-default @(finishDateCss)">By finish date</a>
         <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.CreatedDate" class="btn btn-default @(createdDateCss)">By created date</a>
         <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.Priority" class="btn btn-default  @(priorityCss)">By priority</a>
-        <div class="splitter"></div>
+        <div class="splitter"/></div>
         <a asp-action="ToggleShowFinished" asp-controller="Todo" class="btn btn-default @(showFinishedCss)">@(showFinishedText)</a>
     </div>
 
@@ -39,9 +39,7 @@
                     </div>
                 </div>
                 <div id="todoEmptyDiv">
-
                 </div>
-
             </div>
             <div class="todoContentRow">
                 <div id="todoFinishedDiv"><input asp-for="@(todo.Finished)" disabled="disabled" /><label>Finished</label></div>
