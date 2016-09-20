@@ -49,15 +49,17 @@ select {
 .layoutSelection {
     width: 150px;
 }
-.controlButton {
+.row {
     display: flex;
     justify-content: space-between;
     flex-flow: row wrap;
 }
 
-.controlButton a {
+.row a {
     flex : 0 1 150px;
 }
+
+
 
 .filterButton {
     display: flex;
@@ -125,12 +127,12 @@ select {
     height: 100%;
 }
 @media (max-width: 660px) {
-    .controlButton {
+    .collapsable-row  {
         display: flex;
         flex-flow: column wrap;
     }
 
-    .controlButton a {
+    .collapsable-row a {
         width: 100%;
         flex : 0 1 100%;
     }
