@@ -49,14 +49,13 @@
     }
 
     .np-collapsable-row a {
-        width: 100%;
         flex: 0 1 100%;
     }
 
     .np-column-1 {
-        flex : 0 1;
+        flex : 1 1;
     }
-
+    
     .todoContentRow {
         display: flex;
         flex-flow: column wrap;
