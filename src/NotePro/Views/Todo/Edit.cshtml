@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Mvc.ViewFeatures
 @using System;
-
-@model NotePro.Models.TodoViewModels.NewTodoViewModel
+@model NotePro.Models.TodoViewModels.TodoViewModel
 
 <form asp-action="Update"  asp-route-id="@(Model.Id)" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#content">
     @Html.Partial("TodoContent")
@@ -12,5 +11,6 @@
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Discard Changes" class="btn btn-default" />
         </div>
+        <a href="~/Views/Todo/List.cshtml">~/Views/Todo/List.cshtml</a>
     </div>
 </form>
