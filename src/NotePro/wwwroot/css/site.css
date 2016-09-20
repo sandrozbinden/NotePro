@@ -9,8 +9,6 @@
     padding-left: 15px;
     padding-right: 15px;
 }
-/* Set widths on the form inputs since otherwise they're 100% wide */
-
 input,
 select,
 textarea {
@@ -35,6 +33,12 @@ select {
 }
 /* Hide/rearrange for smaller screens */
 
+.splitter {
+    flex :1 1 auto;
+}
+
+
+
 @media screen and (max-width: 767px) {
     /* Hide captions */
     
@@ -50,6 +54,11 @@ select {
     justify-content: space-between;
     flex-flow: row wrap;
 }
+
+.controlButton a {
+    flex : 0 1 150px;
+}
+
 .filterButton {
     display: flex;
     flex-flow: row wrap;
@@ -120,18 +129,17 @@ select {
         display: flex;
         flex-flow: column wrap;
     }
-    .controlButton button {
-        width: 100%;
-    }
+
     .controlButton a {
         width: 100%;
+        flex : 0 1 100%;
     }
     .filterButton {
         display: flex;
         flex-flow: column wrap;
     }
     .todoContentRow {
-        display: flex;
+        display: flex;  
         flex-flow: column wrap;
     }
     #todoEditDiv a {

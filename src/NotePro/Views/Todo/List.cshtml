@@ -5,7 +5,7 @@
     var showFinishedCss = @Model.ShowFinished ? "btn-primary" : "";
     var finishDateCss = @Model.SortOrder == SortOrder.FinishDate ? "btn-primary" : "";
     var createdDateCss = @Model.SortOrder == SortOrder.CreatedDate ? "btn-primary" : "";
-    var priorityCss = @Model.SortOrder  == SortOrder.Priority ? "btn-primary" : "";
+    var priorityCss = @Model.SortOrder == SortOrder.Priority ? "btn-primary" : "";
 }
 
 <div class="container">
@@ -21,20 +21,11 @@
             </div>
         </div>
         <div class="controlButton">
-            <div class="filterButton">
-                <div>
-                    <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.FinishDate" class="btn btn-default @(finishDateCss)">By finish date</a>
-                </div>
-                <div>
-                    <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.CreatedDate" class="btn btn-default @(createdDateCss)">By created date</a>
-                </div>
-                <div>
-                    <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.Priority" class="btn btn-default  @(priorityCss)">By priority</a>
-                </div>
-            </div>
-            <div>
-                <a asp-action="ToggleShowFinished" asp-controller="Todo" class="btn btn-default @(showFinishedCss)">@(showFinishedText)</a>
-            </div>
+            <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.FinishDate" class="btn btn-default @(finishDateCss)">By finish date</a>
+            <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.CreatedDate" class="btn btn-default @(createdDateCss)">By created date</a>
+            <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.Priority" class="btn btn-default  @(priorityCss)">By priority</a>
+            <div class="splitter"></div>
+            <a asp-action="ToggleShowFinished" asp-controller="Todo" class="btn btn-default @(showFinishedCss)">@(showFinishedText)</a>
         </div>
     </div>
     @foreach (var todo in @Model.Todos)
@@ -55,10 +46,10 @@
 
             </div>
             <div class="todoContentRow">
-                <div id="todoFinishedDiv"><input asp-for="@(todo.Finished)" disabled="disabled"/><label>Finished</label></div>
+                <div id="todoFinishedDiv"><input asp-for="@(todo.Finished)" disabled="disabled" /><label>Finished</label></div>
                 <div id="todoTextDiv"><textarea disabled>@(todo.Text)</textarea></div>
                 <div id="todoEditDiv"><a asp-controller="Todo" asp-action="Edit" asp-route-id="@(todo.Id)" class="btn btn-default">Edit</a></div>
             </div>
         </div>
-    }      
+    }
 </div>
