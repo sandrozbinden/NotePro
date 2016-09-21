@@ -3,9 +3,6 @@
 @{
     var showFinishedText = @Model.ShowFinished ? "Hide Finished" : "Show Finished";
     var showFinishedCss = @Model.ShowFinished ? "btn-primary" : "";
-    var finishDateCss = @Model.SortOrder == SortOrder.FinishDate ? "btn-primary" : "";
-    var createdDateCss = @Model.SortOrder == SortOrder.CreatedDate ? "btn-primary" : "";
-    var priorityCss = @Model.SortOrder == SortOrder.Priority ? "btn-primary" : "";
 }
 
 <div class="container">
@@ -19,9 +16,11 @@
         <a asp-action="ToggleLayout" asp-controller="Todo" class="btn btn-default">Style Switcher</a>
     </div>
     <div class="np-row np-collapsable-row">
-        <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.FinishDate" class="btn btn-default spreadable @(finishDateCss)">By finish date</a>
-        <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.CreatedDate" class="btn btn-default spreadable @(createdDateCss)">By created date</a>
-        <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.Priority" class="btn btn-default  spreadable @(priorityCss)">By priority</a>
+        @foreach (SortOrder sortOrder in Enum.GetValues(typeof(SortOrder)))
+        {
+            var cssActive = @Model.SortOrder == sortOrder ? "btn-primary" : "";
+            <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@sortOrder" class="btn btn-default spreadable @(cssActive)">@SortOrderExtensions.GetName(sortOrder)</a>
+        }
         <div class="splitter" />
     </div>
     <a asp-action="ToggleShowFinished" asp-controller="Todo" class="btn btn-default spreadable @(showFinishedCss)">@(showFinishedText)</a>
