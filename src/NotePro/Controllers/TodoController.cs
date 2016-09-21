@@ -114,7 +114,7 @@ namespace NotePro.Controllers
             
             var session = _httpContextAccessor.HttpContext.Session;
             var sortOrder = session.GetString("Todos.SortOrder").ToEnum(SortOrder.FinishDate);
-            var showFinished = session.GetInt32("Todos.ShowFinished") == null ? false : Convert.ToBoolean(session.GetInt32("Todos.ShowFinished"));
+            var showFinished = session.GetBoolean("Todos.ShowFinished", true);
             var todos = findTodos(sortOrder, showFinished);
             return View("List", new TodoListViewModel { Todos = todos,SortOrder =sortOrder,  ShowFinished = showFinished});
         }

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace NotePro.ExtensionMethods
 {
-    public static class SessionBooleanAccessMethodExtension
+    public static class SessionMethodExtension
     {
         public static bool GetBoolean(this ISession session, String name, bool defaultValue)
         {
