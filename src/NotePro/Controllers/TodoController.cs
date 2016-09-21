@@ -37,7 +37,7 @@ namespace NotePro.Controllers
 
         public IActionResult Edit(long id)
         {
-            var todo = _context.Todos.FirstOrDefault(x => x.Id == id);
+            var todo = _context.Todos.Where(x => x.Id == id).FirstOrDefault();
             if (todo == null)
             {
                 return NotFound();
@@ -95,16 +95,16 @@ namespace NotePro.Controllers
         public IActionResult ToggleLayout()
         {
             var session = _httpContextAccessor.HttpContext.Session;
-            var defaultLayout = session.GetInt32("Application.DefaultLayout") == null ? true : Convert.ToBoolean(session.GetInt32("Application.DefaultLayout"));
-            _httpContextAccessor.HttpContext.Session.SetInt32("Application.DefaultLayout", Convert.ToInt32(!defaultLayout));
+            var defaultLayout = session.GetBoolean("Application.DefaultLayout", true);
+            session.SetBoolean("Application.DefaultLayout", !defaultLayout);
             return List();
         }
     
         public IActionResult ToggleShowFinished()
         {
-            var session = _httpContextAccessor.HttpContext.Session; 
-            var showFinished = session.GetInt32("Todos.ShowFinished") == null ? false : Convert.ToBoolean(session.GetInt32("Todos.ShowFinished"));
-            _httpContextAccessor.HttpContext.Session.SetInt32("Todos.ShowFinished", Convert.ToInt32(!showFinished));
+            var session = _httpContextAccessor.HttpContext.Session;
+            var showFinished = session.GetBoolean("Todos.ShowFinished", true);
+            session.SetBoolean("Todos.ShowFinished", !showFinished);
             return List(); 
         }
 
