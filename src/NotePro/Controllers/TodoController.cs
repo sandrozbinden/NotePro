@@ -37,7 +37,7 @@ namespace NotePro.Controllers
 
         public IActionResult Edit(long id)
         {
-            var todo = _context.Todos.Where(x => x.Id == id).FirstOrDefault();
+            var todo = _context.Todos.FirstOrDefault(x => x.Id == id);
             if (todo == null)
             {
                 return NotFound();
