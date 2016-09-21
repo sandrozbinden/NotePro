@@ -15,13 +15,13 @@ namespace NotePro.Controllers
 {
     public class TodoController : Controller
     {
-        private readonly ApplicationDbContext context;
-        private IHttpContextAccessor httpContextAccessor;
+        private readonly ApplicationDbContext _context;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public TodoController(IHttpContextAccessor httpContextAccessor, ApplicationDbContext context)
         {
-            this.httpContextAccessor = httpContextAccessor;
-            this.context = context;
+            this._httpContextAccessor = httpContextAccessor;
+            this._context = context;
         }
 
         // GET: /<controller>/
@@ -37,7 +37,7 @@ namespace NotePro.Controllers
 
         public IActionResult Edit(long id)
         {
-            var todo = context.Todos.Where(x => x.Id == id).FirstOrDefault();
+            var todo = _context.Todos.Where(x => x.Id == id).FirstOrDefault();
             if (todo == null)
             {
                 return NotFound();
@@ -51,8 +51,8 @@ namespace NotePro.Controllers
             if (ModelState.IsValid)
             {
                 var todo = new Todo() { Id = todoView.Id, Title = todoView.Title, Text = todoView.Text, FinishDate = todoView.FinishDate, Priority = todoView.Priority, Finished = todoView.Finished };
-                context.Todos.Update(todo);
-                context.SaveChanges();
+                _context.Todos.Update(todo);
+                _context.SaveChanges();
 
                 return RedirectToAction("List");
             }
@@ -73,8 +73,8 @@ namespace NotePro.Controllers
             if (ModelState.IsValid)
             {
                 var todo = new Todo() { Title = newTodo.Title, Text = newTodo.Text, FinishDate= newTodo.FinishDate, Priority = newTodo.Priority, Finished = newTodo.Finished};
-                context.Todos.Add(todo);
-                context.SaveChanges();
+                _context.Todos.Add(todo);
+                _context.SaveChanges();
                 
                 return RedirectToAction("List");
             }
@@ -86,7 +86,7 @@ namespace NotePro.Controllers
 
         public IActionResult Sort(SortOrder sortOrder)
         {
-            httpContextAccessor.HttpContext.Session.SetString("Todos.SortOrder", sortOrder.ToString());
+            _httpContextAccessor.HttpContext.Session.SetString("Todos.SortOrder", sortOrder.ToString());
             return List();
         }
 
@@ -94,17 +94,17 @@ namespace NotePro.Controllers
 
         public IActionResult ToggleLayout()
         {
-            var session = httpContextAccessor.HttpContext.Session;
+            var session = _httpContextAccessor.HttpContext.Session;
             var defaultLayout = session.GetInt32("Application.DefaultLayout") == null ? true : Convert.ToBoolean(session.GetInt32("Application.DefaultLayout"));
-            httpContextAccessor.HttpContext.Session.SetInt32("Application.DefaultLayout", Convert.ToInt32(!defaultLayout));
+            _httpContextAccessor.HttpContext.Session.SetInt32("Application.DefaultLayout", Convert.ToInt32(!defaultLayout));
             return List();
         }
     
         public IActionResult ToggleShowFinished()
         {
-            var session = httpContextAccessor.HttpContext.Session; 
+            var session = _httpContextAccessor.HttpContext.Session; 
             var showFinished = session.GetInt32("Todos.ShowFinished") == null ? false : Convert.ToBoolean(session.GetInt32("Todos.ShowFinished"));
-            httpContextAccessor.HttpContext.Session.SetInt32("Todos.ShowFinished", Convert.ToInt32(!showFinished));
+            _httpContextAccessor.HttpContext.Session.SetInt32("Todos.ShowFinished", Convert.ToInt32(!showFinished));
             return List(); 
         }
 
@@ -112,7 +112,7 @@ namespace NotePro.Controllers
         public IActionResult List()
         {
             
-            var session = httpContextAccessor.HttpContext.Session;
+            var session = _httpContextAccessor.HttpContext.Session;
             var sortOrder = session.GetString("Todos.SortOrder").ToEnum(SortOrder.FinishDate);
             var showFinished = session.GetInt32("Todos.ShowFinished") == null ? false : Convert.ToBoolean(session.GetInt32("Todos.ShowFinished"));
             var todos = findTodos(sortOrder, showFinished);
@@ -124,9 +124,9 @@ namespace NotePro.Controllers
         {
             switch (sortOrder)
             {
-                case SortOrder.FinishDate: return context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.FinishDate).ToList();
-                case SortOrder.Priority: return context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderByDescending(todo => todo.Priority).ToList();
-                case SortOrder.CreatedDate: return context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.CreationDate).ToList();
+                case SortOrder.FinishDate: return _context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.FinishDate).ToList();
+                case SortOrder.Priority: return _context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderByDescending(todo => todo.Priority).ToList();
+                case SortOrder.CreatedDate: return _context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.CreationDate).ToList();
                 default: throw new System.InvalidOperationException("Can't find sortOrder for enum: " + sortOrder);
             }
         }
