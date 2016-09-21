@@ -111,7 +111,7 @@ namespace NotePro.Controllers
         public IActionResult List()
         {
             var session = httpContextAccessor.HttpContext.Session;
-            var sortOrder = ParseEnum<SortOrder>(session.GetString("Todos.SortOrder") == null ? "finishDate" : session.GetString("Todos.SortOrder"));
+            var sortOrder = session.GetString("Todos.SortOrder") == null ? SortOrder.FinishDate : ParseEnum<SortOrder>(session.GetString("Todos.SortOrder"));
             var showFinished = session.GetInt32("Todos.ShowFinished") == null ? false : Convert.ToBoolean(session.GetInt32("Todos.ShowFinished"));
             var todos = findTodos(sortOrder, showFinished);
             return View("List", new TodoListViewModel { Todos = todos,SortOrder =sortOrder,  ShowFinished = showFinished});

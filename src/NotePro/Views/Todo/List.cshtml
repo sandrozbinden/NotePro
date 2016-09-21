@@ -21,7 +21,7 @@
     <div class="np-row np-collapsable-row">
         <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.FinishDate" class="btn btn-default spreadable @(finishDateCss)">By finish date</a>
         <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.CreatedDate" class="btn btn-default spreadable @(createdDateCss)">By created date</a>
-        <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.Priority" class="btn btn-default  spreadable@(priorityCss)">By priority</a>
+        <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@SortOrder.Priority" class="btn btn-default  spreadable @(priorityCss)">By priority</a>
         <div class="splitter" />
     </div>
     <a asp-action="ToggleShowFinished" asp-controller="Todo" class="btn btn-default spreadable @(showFinishedCss)">@(showFinishedText)</a>
