@@ -7,6 +7,7 @@ using NotePro.Models.TodoViewModels;
 using NotePro.Models;
 using NotePro.Data;
 using Microsoft.AspNetCore.Http;
+using NotePro.ExtensionMethods;
 
 // For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -110,17 +111,14 @@ namespace NotePro.Controllers
 
         public IActionResult List()
         {
+            
             var session = httpContextAccessor.HttpContext.Session;
-            var sortOrder = session.GetString("Todos.SortOrder") == null ? SortOrder.FinishDate : ParseEnum<SortOrder>(session.GetString("Todos.SortOrder"));
+            var sortOrder = session.GetString("Todos.SortOrder").ToEnum(SortOrder.FinishDate);
             var showFinished = session.GetInt32("Todos.ShowFinished") == null ? false : Convert.ToBoolean(session.GetInt32("Todos.ShowFinished"));
             var todos = findTodos(sortOrder, showFinished);
             return View("List", new TodoListViewModel { Todos = todos,SortOrder =sortOrder,  ShowFinished = showFinished});
         }
 
-        public static T ParseEnum<T>(string value)
-        {
-            return (T)Enum.Parse(typeof(T), value, true);
-        }
 
         private List<Todo> findTodos(SortOrder sortOrder, bool showFinished)
         {
