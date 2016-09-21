@@ -31,7 +31,7 @@
 {
     <div class="content">
         <div class="np-row">
-            <label class="np-column-1">@(todo.FinishDate.ToString("D"))</label>
+            <label class="np-column-1">@(todo.FinishDate.ToText())</label>
             <div class="np-column-2 np-row">
                 <label>@(todo.Title)</label>
                 <div class="splitter"></div>
@@ -41,10 +41,14 @@
             <div class="np-column-3"></div>
         </div>
         <div class="np-row np-collapsable-row">
-            <div class="np-column-1"><input asp-for="@(todo.Finished)" disabled="disabled"/><label>Finished</label></div>
+            @{
+                var finishedText = todo.Finished ? " [" + @todo.FinishDate.ToText() + "]" : "";
+            }
+            <div class="np-column-1"><input asp-for="@(todo.Finished)" disabled="disabled"/><label>Finished @(finishedText)</label>
+            </div>
             <textarea disabled class="np-column-2">@(todo.Text)</textarea>
             <a asp-controller="Todo" asp-action="Edit" asp-route-id="@(todo.Id)" class="btn btn-default np-column-3">Edit</a>
-            </div>
+        </div>
     </div>
 }
 

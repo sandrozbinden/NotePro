@@ -25,7 +25,7 @@ namespace NotePro.Migrations
                         Title = "Call wife",
                         Text = "Organise dinner party with friends",
                         Priority = 4,
-                        FinishDate =  new DateTime(DateTime.Now.Year, 5, 15),
+                        FinishDate =  DateTime.Today,
                         Finished = false
                     },
                     new Todo
@@ -33,7 +33,7 @@ namespace NotePro.Migrations
                         Title = "E-Mail boss",
                         Text = "Ask about c# conferences",
                         Priority = 3,
-                        FinishDate =  new DateTime(DateTime.Now.Year, 5, 18),
+                        FinishDate =  DateTime.Today.AddDays(1),
                         Finished = false
 
                     },
@@ -42,7 +42,7 @@ namespace NotePro.Migrations
                         Title = "Call travel agency",
                         Text = "Extend vacation package (058 702 66 50)",
                         Priority = 5,
-                        FinishDate =  new DateTime(DateTime.Now.Year, 5, 16),
+                        FinishDate =  DateTime.Today.AddDays(-8),
                         Finished = true
                     }
             };
