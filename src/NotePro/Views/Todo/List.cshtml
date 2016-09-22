@@ -17,7 +17,7 @@
         }
         <div class="splitter"></div>
         @{
-            var showFinishedCss = @Model.ShowFinished ? "active" : "";
+            var showFinishedCss = @Model.ShowFinished ? "" : "active";
         }
         <a asp-action="ToggleShowFinished" asp-controller="Todo" class="btn btn-default showFinished spreadable @(showFinishedCss)" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#content">Hide Finished</a>
     </div>
