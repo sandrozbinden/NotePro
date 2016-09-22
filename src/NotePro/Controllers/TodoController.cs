@@ -24,20 +24,15 @@ namespace NotePro.Controllers
             this._context = context;
         }
 
-        // GET: /<controller>/
-        public IActionResult Index()
-        {
-            return View();
-        }
 
         public IActionResult Create()
         {
-            return View();
+            return View("Create");
         }
 
         public IActionResult Edit(long id)
         {
-            var todo = _context.Todos.Where(x => x.Id == id).FirstOrDefault();
+            var todo = _context.Todos.FirstOrDefault(x => x.Id == id);
             if (todo == null)
             {
                 return NotFound();
@@ -87,7 +82,7 @@ namespace NotePro.Controllers
         public IActionResult Sort(SortOrder sortOrder)
         {
             _httpContextAccessor.HttpContext.Session.SetString("Todos.SortOrder", sortOrder.ToString());
-            return List();
+            return PartialList();
         }
 
         
@@ -105,7 +100,15 @@ namespace NotePro.Controllers
             var session = _httpContextAccessor.HttpContext.Session;
             var showFinished = session.GetBoolean("Todos.ShowFinished", true);
             session.SetBoolean("Todos.ShowFinished", !showFinished);
-            return List(); 
+            return PartialList(); 
+        }
+        public IActionResult PartialList()
+        {
+
+            var session = _httpContextAccessor.HttpContext.Session;
+            var sortOrder = session.GetString("Todos.SortOrder").ToEnum(SortOrder.FinishDate);
+            var showFinished = session.GetBoolean("Todos.ShowFinished", true);
+            return PartialView("ListContent", FindTodos(sortOrder, showFinished));
         }
 
 
@@ -115,12 +118,12 @@ namespace NotePro.Controllers
             var session = _httpContextAccessor.HttpContext.Session;
             var sortOrder = session.GetString("Todos.SortOrder").ToEnum(SortOrder.FinishDate);
             var showFinished = session.GetBoolean("Todos.ShowFinished", true);
-            var todos = findTodos(sortOrder, showFinished);
+            var todos = FindTodos(sortOrder, showFinished);
             return View("List", new TodoListViewModel { Todos = todos,SortOrder =sortOrder,  ShowFinished = showFinished});
         }
 
 
-        private List<Todo> findTodos(SortOrder sortOrder, bool showFinished)
+        private List<Todo> FindTodos(SortOrder sortOrder, bool showFinished)
         {
             switch (sortOrder)
             {

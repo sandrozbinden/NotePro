@@ -4,7 +4,7 @@
     ViewData["Title"] = "View";
 }
 <div id="content">
-    <form asp-action="Create" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#content">
+    <form asp-action="Create">
         @Html.Partial("TodoContent")
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
