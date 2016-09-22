@@ -1,3 +1,4 @@
+[![Stories in Ready](https://badge.waffle.io/sandrozbinden/NotePro.png?label=ready&title=Ready)](https://waffle.io/sandrozbinden/NotePro)
 ## Synopsis
 
 Responsive Application to manage your personal todos.
