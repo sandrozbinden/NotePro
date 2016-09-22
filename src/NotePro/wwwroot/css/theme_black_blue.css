@@ -1,9 +1,19 @@
 ﻿body {
     background-color: black;
-    color: blue;
+    color: white;
 }
 
 .btn {
-    color: blue;
+    background: black;
+    color: white;
+}
+
+.jumbotron {
+    background: darkblue;
+    color: white;
+}
+
+textarea {
+    background: darkblue;
 }
 

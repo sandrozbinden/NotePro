@@ -24,7 +24,6 @@ namespace NotePro.Controllers
             this._context = context;
         }
 
-
         public IActionResult Create()
         {
             return View("Create");
@@ -83,9 +82,7 @@ namespace NotePro.Controllers
         {
             _httpContextAccessor.HttpContext.Session.SetString("Todos.SortOrder", sortOrder.ToString());
             return PartialList();
-        }
-
-        
+        }  
 
         public IActionResult ToggleLayout()
         {
@@ -104,7 +101,6 @@ namespace NotePro.Controllers
         }
         public IActionResult PartialList()
         {
-
             var session = _httpContextAccessor.HttpContext.Session;
             var sortOrder = session.GetString("Todos.SortOrder").ToEnum(SortOrder.FinishDate);
             var showFinished = session.GetBoolean("Todos.ShowFinished", true);
