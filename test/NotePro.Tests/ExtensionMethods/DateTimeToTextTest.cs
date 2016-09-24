@@ -2,7 +2,7 @@
 using NotePro.ExtensionMethods;
 using Xunit;
 
-namespace NotePro.Tests
+namespace NotePro.Tests.ExtensionMethods
 {
     public class DateTimeToTextTest
     {
