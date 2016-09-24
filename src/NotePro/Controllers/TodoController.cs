@@ -15,7 +15,7 @@ namespace NotePro.Controllers
 {
     public class TodoController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context; 
         private readonly IHttpContextAccessor _httpContextAccessor;
 
         public TodoController(IHttpContextAccessor httpContextAccessor, ApplicationDbContext context)
@@ -37,7 +37,7 @@ namespace NotePro.Controllers
                 return NotFound();
             }
             var todoView = new TodoViewModel() { Id = todo.Id, Title = todo.Title, Text = todo.Text, FinishDate = todo.FinishDate, Priority = todo.Priority, Finished = todo.Finished };
-            return View("Show", todoView);
+            return View("Edit", todoView);
         }
 
         public IActionResult Update(long id, TodoViewModel todoView)
