@@ -11,6 +11,7 @@ namespace NotePro.Models.TodoViewModels
 {
     public class TodoViewModel
     {
+
         public long Id { get; set; }
 
         [Display(Name = "Title")]
