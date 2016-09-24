@@ -19,7 +19,7 @@ namespace NotePro.ExtensionMethods
             }
             else if (date.Date < DateTime.Today.AddDays(-1))
             {
-                return (DateTime.Today - date).TotalDays  + " Days ago";
+                return (DateTime.Today- date.Date).TotalDays  + " Days ago";
             }
             else if (date.Date == DateTime.Today.AddDays(-1))
             {
@@ -35,7 +35,7 @@ namespace NotePro.ExtensionMethods
             }
             else if (date.Date < DateTime.Today.AddDays(30))
             {
-                return "In " + (date - DateTime.Today).TotalDays + " Days";
+                return "In " + (date.Date - DateTime.Today).TotalDays + " Days";
             }
             else
             {

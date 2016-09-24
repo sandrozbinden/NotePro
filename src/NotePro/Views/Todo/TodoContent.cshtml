@@ -28,13 +28,14 @@
         <div class="col-md-10">
             <div class="input-group date" data-provide="datepicker">
                 <input asp-for="FinishDate" id="finishDate" class="form-control" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
                 <span asp-validation-for="FinishDate" class="text-danger" />
             </div>
             <script type="text/javascript">
                 $(function () {
-                    if ($('#finishDate').prop('type') != 'date') {
-                        $('#finishDate').datepicker({ "dateFormat": "yy-mm-dd" });
-                    }
+                    $('#finishDate').datetimepicker({ format: 'DD/MM/YYYY HH:mm', useCurrent:false});
                 });
             </script>
         </div>

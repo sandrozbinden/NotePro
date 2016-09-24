@@ -26,9 +26,9 @@ namespace NotePro.Models.TodoViewModels
         [Range(1, 5)]
         public int Priority { get; set; }
 
-        
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime FinishDate { get; set; }
 
         public bool Finished { get; set; }
