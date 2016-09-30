@@ -16,12 +16,12 @@ namespace NotePro.Controllers
     public class TodoController : Controller
     {
         private readonly ApplicationDbContext _context; 
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly TodoSessionAccessor _todoSessionAccessor;
 
         public TodoController(IHttpContextAccessor httpContextAccessor, ApplicationDbContext context)
         {
-            this._httpContextAccessor = httpContextAccessor;
             this._context = context;
+            this._todoSessionAccessor = new TodoSessionAccessor(httpContextAccessor);
         }
 
         public IActionResult Create()
@@ -77,52 +77,33 @@ namespace NotePro.Controllers
 
         public IActionResult ToggleLayout()
         {
-            var session = _httpContextAccessor.HttpContext.Session;
-            var defaultLayout = session.GetBoolean("Application.DefaultLayout", true);
-            session.SetBoolean("Application.DefaultLayout", !defaultLayout);
+            _todoSessionAccessor.DefaultLayout = !_todoSessionAccessor.DefaultLayout;
             return Index();
         }
 
         [HttpPost]
         public IActionResult Sort(SortOrder sortOrder)
         {
-            _httpContextAccessor.HttpContext.Session.SetString("Todos.SortOrder", sortOrder.ToString());
+            _todoSessionAccessor.SortOrder = sortOrder;
             return PartialList();
         }
 
         [HttpPost]
         public IActionResult ToggleShowFinished()
         {
-            var session = _httpContextAccessor.HttpContext.Session;
-            var showFinished = session.GetBoolean("Todos.ShowFinished", true);
-            session.SetBoolean("Todos.ShowFinished", !showFinished);
+            _todoSessionAccessor.ShowFinished = !_todoSessionAccessor.ShowFinished;
             return PartialList(); 
         }
 
         public IActionResult PartialList()
         {
-            return PartialView("ListContent", _context.FindTodos(SortOrder(), ShowFinished()));
+            return PartialView("ListContent", _context.FindTodos(_todoSessionAccessor.SortOrder, _todoSessionAccessor.ShowFinished));
         }
 
         public IActionResult Index()
         {
-            var sortOrder = SortOrder();
-            var showFinished = ShowFinished();
-            var todos = _context.FindTodos(sortOrder, showFinished);
-            return View("Index", new TodoListViewModel { Todos = todos,SortOrder =sortOrder,  ShowFinished = showFinished});
+            var todos = _context.FindTodos(_todoSessionAccessor.SortOrder, _todoSessionAccessor.ShowFinished);
+            return View("Index", new TodoListViewModel { Todos = todos,SortOrder = _todoSessionAccessor.SortOrder,  ShowFinished = _todoSessionAccessor.ShowFinished });
         }
-
-        private bool ShowFinished()
-        {
-            var session = _httpContextAccessor.HttpContext.Session;
-            return session.GetBoolean("Todos.ShowFinished", true);
-        }
-
-        public SortOrder SortOrder()
-        {
-            var session = _httpContextAccessor.HttpContext.Session;
-            return session.GetString("Todos.SortOrder").ToEnum(Models.TodoViewModels.SortOrder.FinishDate); ;
-        }
-
     }
 }
