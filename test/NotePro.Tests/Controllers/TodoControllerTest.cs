@@ -8,7 +8,6 @@ using NotePro.Data;
 using Xunit;
 using System.Net;
 using Microsoft.AspNetCore.Http;
-using NotePro.Models.TodoViewModels;
 using NotePro.ExtensionMethods;
 using NotePro.Models;
 
@@ -17,19 +16,21 @@ namespace NotePro.Tests.Controllers
     public class TodoControllerTest
     {
         private readonly IServiceProvider _serviceProvider;
+        private readonly FakeHttpContextAccessor _fakeHttpContextAccessor;
 
         public TodoControllerTest()
         {
             var services = new ServiceCollection();
             services.AddDbContext<ApplicationDbContext>(options => options.UseInMemoryDatabase("NoteProTest"));
             _serviceProvider = services.BuildServiceProvider();
+            _fakeHttpContextAccessor = new FakeHttpContextAccessor();
         }
 
         [Fact]
         public void CreateTodoItem()
         {
             //arrange
-            var controller = new TodoController(null, _serviceProvider.GetService<ApplicationDbContext>());
+            var controller = new TodoController(_fakeHttpContextAccessor, _serviceProvider.GetService<ApplicationDbContext>());
             var model = new Todo() { Title = "Cleaning", Text = "Clean Kitchen", Priority = 3, FinishDate = DateTime.Now };
             
             //act
@@ -43,7 +44,7 @@ namespace NotePro.Tests.Controllers
         public void CreateTodoItemInvalidModelState()
         {
             //arrange
-            var controller = new TodoController(null, _serviceProvider.GetService<ApplicationDbContext>());
+            var controller = new TodoController(_fakeHttpContextAccessor, _serviceProvider.GetService<ApplicationDbContext>());
             var model = new Todo() { Title = "Cleaning", Text = "Clean Kitchen", FinishDate = DateTime.Now };
             controller.ModelState.AddModelError("", "Error");
 
@@ -62,7 +63,7 @@ namespace NotePro.Tests.Controllers
             dbContext.DeleteAll<Todo>();
             dbContext.SaveChanges();
             var model = new Todo() { Title = "Cleaning", Text = "Clean Kitchen", FinishDate = DateTime.Now };
-            var controller = new TodoController(null, dbContext);
+            var controller = new TodoController(_fakeHttpContextAccessor, dbContext);
             controller.Create(model);
             model = dbContext.Todos.FirstOrDefault();
 
@@ -81,7 +82,7 @@ namespace NotePro.Tests.Controllers
             var dbContext = _serviceProvider.GetService<ApplicationDbContext>();
             dbContext.DeleteAll<Todo>();
             dbContext.SaveChanges();
-            var controller = new TodoController(null, dbContext);
+            var controller = new TodoController(_fakeHttpContextAccessor, dbContext);
 
             //act
             var result = (StatusCodeResult)controller.Edit(1);

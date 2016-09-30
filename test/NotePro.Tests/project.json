@@ -9,7 +9,9 @@
     "dotnet-test-xunit": "1.0.0-rc2-build10025",
     "NotePro": {
       "target": "project"
-    }
+    },
+    "moq.netcore": "4.4.0-beta8",
+    "System.Diagnostics.TraceSource" :  "4.0.0" 
   },
   "testRunner": "xunit",
   "frameworks": {

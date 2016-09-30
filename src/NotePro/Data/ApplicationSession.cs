@@ -8,11 +8,6 @@ namespace NotePro.Data
     {
         private readonly ISession _session;
 
-        public ApplicationSession(IHttpContextAccessor httpContextAccessor) : this (httpContextAccessor.HttpContext.Session)
-        {
-            
-        }
-
         public ApplicationSession(ISession session)
         {
             this._session = session;

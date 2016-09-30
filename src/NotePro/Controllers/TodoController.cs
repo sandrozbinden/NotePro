@@ -20,9 +20,10 @@ namespace NotePro.Controllers
         public TodoController(IHttpContextAccessor httpContextAccessor, ApplicationDbContext dbContext)
         {
             this._dbContext = dbContext;
-            this._session = new ApplicationSession(httpContextAccessor);
+            this._session = new ApplicationSession(httpContextAccessor.HttpContext.Session);
         }
 
+        
         public IActionResult Create()
         {
             return View("Create");
