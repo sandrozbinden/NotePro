@@ -79,7 +79,7 @@ namespace NotePro.Controllers
         public IActionResult Sort(SortOrder sortOrder)
         {
             _session.SortOrder = sortOrder;
-            var todos = _dbContext.FindTodos(_session.SortOrder, _session.ShowFinished);
+            var todos = _dbContext.Todos.Find(_session.SortOrder, _session.ShowFinished);
             return PartialView("ListContent", todos);
         }
 
@@ -87,7 +87,7 @@ namespace NotePro.Controllers
         public IActionResult ToggleShowFinished()
         {
             _session.ShowFinished = !_session.ShowFinished;
-            var todos = _dbContext.FindTodos(_session.SortOrder, _session.ShowFinished);
+            var todos = _dbContext.Todos.Find(_session.SortOrder, _session.ShowFinished);
             return PartialView("ListContent", todos);
         }
 
@@ -101,7 +101,7 @@ namespace NotePro.Controllers
         {
             var sortOrder = _session.SortOrder;
             var showFinished = _session.ShowFinished;
-            var todos = _dbContext.FindTodos(sortOrder, showFinished);
+            var todos = _dbContext.Todos.Find(sortOrder, showFinished);
             return View("Index", new TodoListViewModel { Todos = todos, SortOrder = sortOrder,  ShowFinished = showFinished });
         }
     }

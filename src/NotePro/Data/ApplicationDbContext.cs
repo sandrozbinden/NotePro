@@ -22,17 +22,6 @@ namespace NotePro.Data
 
         }
 
-        public List<Todo> FindTodos(SortOrder sortOrder, bool showFinished)
-        {
-            switch (sortOrder)
-            {
-                case SortOrder.FinishDate: return Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.FinishDate).ToList();
-                case SortOrder.Priority: return Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderByDescending(todo => todo.Priority).ToList();
-                case SortOrder.CreatedDate: return Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.CreationDate).ToList();
-                default: throw new System.InvalidOperationException("Can't find sortOrder for enum: " + sortOrder);
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
