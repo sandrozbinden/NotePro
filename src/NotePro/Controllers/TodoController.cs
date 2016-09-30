@@ -16,12 +16,12 @@ namespace NotePro.Controllers
     public class TodoController : Controller
     {
         private readonly ApplicationDbContext _context; 
-        private readonly TodoSessionAccessor _todoSessionAccessor;
+        private readonly ApplicationSession _session;
 
         public TodoController(IHttpContextAccessor httpContextAccessor, ApplicationDbContext context)
         {
             this._context = context;
-            this._todoSessionAccessor = new TodoSessionAccessor(httpContextAccessor);
+            this._session = new ApplicationSession(httpContextAccessor);
         }
 
         public IActionResult Create()
@@ -77,33 +77,33 @@ namespace NotePro.Controllers
 
         public IActionResult ToggleLayout()
         {
-            _todoSessionAccessor.DefaultLayout = !_todoSessionAccessor.DefaultLayout;
+            _session.DefaultLayout = !_session.DefaultLayout;
             return Index();
         }
 
         [HttpPost]
         public IActionResult Sort(SortOrder sortOrder)
         {
-            _todoSessionAccessor.SortOrder = sortOrder;
+            _session.SortOrder = sortOrder;
             return PartialList();
         }
 
         [HttpPost]
         public IActionResult ToggleShowFinished()
         {
-            _todoSessionAccessor.ShowFinished = !_todoSessionAccessor.ShowFinished;
+            _session.ShowFinished = !_session.ShowFinished;
             return PartialList(); 
         }
 
         public IActionResult PartialList()
         {
-            return PartialView("ListContent", _context.FindTodos(_todoSessionAccessor.SortOrder, _todoSessionAccessor.ShowFinished));
+            return PartialView("ListContent", _context.FindTodos(_session.SortOrder, _session.ShowFinished));
         }
 
         public IActionResult Index()
         {
-            var todos = _context.FindTodos(_todoSessionAccessor.SortOrder, _todoSessionAccessor.ShowFinished);
-            return View("Index", new TodoListViewModel { Todos = todos,SortOrder = _todoSessionAccessor.SortOrder,  ShowFinished = _todoSessionAccessor.ShowFinished });
+            var todos = _context.FindTodos(_session.SortOrder, _session.ShowFinished);
+            return View("Index", new TodoListViewModel { Todos = todos,SortOrder = _session.SortOrder,  ShowFinished = _session.ShowFinished });
         }
     }
 }
