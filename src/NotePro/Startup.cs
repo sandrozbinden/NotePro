@@ -75,7 +75,7 @@ namespace NotePro
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Todo}/{action=List}/{id?}");
+                    template: "{controller=Todo}/{action=Index}/{id?}");
             });
         }
     }

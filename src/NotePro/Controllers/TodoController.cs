@@ -46,7 +46,7 @@ namespace NotePro.Controllers
                 _context.Todos.Update(todo);
                 _context.SaveChanges();
 
-                return RedirectToAction("List");
+                return RedirectToAction("Index");
             }
             else
             {
@@ -63,7 +63,7 @@ namespace NotePro.Controllers
                 _context.Todos.Add(todo);
                 _context.SaveChanges();
                 
-                return RedirectToAction("List");
+                return RedirectToAction("Index");
             }
             else
             {
@@ -82,7 +82,7 @@ namespace NotePro.Controllers
             var session = _httpContextAccessor.HttpContext.Session;
             var defaultLayout = session.GetBoolean("Application.DefaultLayout", true);
             session.SetBoolean("Application.DefaultLayout", !defaultLayout);
-            return List();
+            return Index();
         }
     
         public IActionResult ToggleShowFinished()
@@ -101,14 +101,14 @@ namespace NotePro.Controllers
         }
 
 
-        public IActionResult List()
+        public IActionResult Index()
         {
             
             var session = _httpContextAccessor.HttpContext.Session;
             var sortOrder = session.GetString("Todos.SortOrder").ToEnum(SortOrder.FinishDate);
             var showFinished = session.GetBoolean("Todos.ShowFinished", true);
             var todos = FindTodos(sortOrder, showFinished);
-            return View("List", new TodoListViewModel { Todos = todos,SortOrder =sortOrder,  ShowFinished = showFinished});
+            return View("Index", new TodoListViewModel { Todos = todos,SortOrder =sortOrder,  ShowFinished = showFinished});
         }
 
 
