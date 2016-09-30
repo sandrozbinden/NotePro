@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -51,6 +52,26 @@ namespace NotePro.Tests.Controllers
 
             //assert
             Assert.Equal(((int)HttpStatusCode.BadRequest), result.StatusCode);
+        }
+
+        [Fact]
+        public void UpdateExistingItem()
+        {
+            //arrange
+            var dbContext = _serviceProvider.GetService<ApplicationDbContext>();
+            dbContext.DeleteAll<Todo>();
+            dbContext.SaveChanges();
+            var model = new Todo() { Title = "Cleaning", Text = "Clean Kitchen", FinishDate = DateTime.Now };
+            var controller = new TodoController(null, dbContext);
+            controller.Create(model);
+            model = dbContext.Todos.FirstOrDefault();
+
+            //act
+            model.Finished = true;
+            var result = (RedirectToActionResult)controller.Edit(model.Id, model);
+            //assert
+            Assert.Equal("Index", result.ActionName);
+            Assert.Equal(true, dbContext.Todos.FirstOrDefault().Finished);
         }
 
         [Fact]
