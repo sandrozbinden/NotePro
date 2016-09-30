@@ -10,30 +10,31 @@ namespace NotePro.Controllers
 {
     public class ApplicationSession
     {
-        private readonly ISession _session;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         public ApplicationSession(IHttpContextAccessor httpContextAccessor)
         {
-            this._session = httpContextAccessor.HttpContext.Session;
+            this._httpContextAccessor = httpContextAccessor;
         }
 
         public bool DefaultLayout
         {
-            get { return _session.GetBoolean("Application.DefaultLayout", true); }
-            set { _session.SetBoolean("Application.DefaultLayout", value); }
+            get { return Session.GetBoolean("Application.DefaultLayout", true); }
+            set { Session.SetBoolean("Application.DefaultLayout", value); }
         }
 
         public SortOrder SortOrder
         {
-            get { return _session.GetString("Todos.SortOrder").ToEnum(Models.TodoViewModels.SortOrder.FinishDate); }
-            set { _session.SetString("Todos.SortOrder", value.ToString()); }
+            get { return Session.GetString("Todos.SortOrder").ToEnum(Models.TodoViewModels.SortOrder.FinishDate); }
+            set { Session.SetString("Todos.SortOrder", value.ToString()); }
         }
 
         public bool ShowFinished
         {
-            get { return _session.GetBoolean("Todos.ShowFinished", true); }
-            set { _session.SetBoolean("Todos.ShowFinished", value); }
+            get { return Session.GetBoolean("Todos.ShowFinished", true); }
+            set { Session.SetBoolean("Todos.ShowFinished", value); }
         }
 
+        private ISession Session => _httpContextAccessor.HttpContext.Session;
     }
 }

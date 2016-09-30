@@ -29,13 +29,13 @@ namespace NotePro.Tests.Controllers
         {
             //arrange
             var controller = new TodoController(null, _serviceProvider.GetService<ApplicationDbContext>());
-            var model = new TodoViewModel() { Title = "Cleaning", Text = "Clean Kitchen", Priority = 3, FinishDate = DateTime.Now };
+            var model = new Todo() { Title = "Cleaning", Text = "Clean Kitchen", Priority = 3, FinishDate = DateTime.Now };
             
             //act
             var result = (RedirectToActionResult)controller.Create(model);
 
             //assert
-            Assert.Equal("List", result.ActionName);
+            Assert.Equal("Index", result.ActionName);
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace NotePro.Tests.Controllers
         {
             //arrange
             var controller = new TodoController(null, _serviceProvider.GetService<ApplicationDbContext>());
-            var model = new TodoViewModel() { Title = "Cleaning", Text = "Clean Kitchen", FinishDate = DateTime.Now };
+            var model = new Todo() { Title = "Cleaning", Text = "Clean Kitchen", FinishDate = DateTime.Now };
             controller.ModelState.AddModelError("", "Error");
 
             //act
