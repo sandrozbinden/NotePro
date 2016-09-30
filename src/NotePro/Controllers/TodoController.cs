@@ -29,31 +29,6 @@ namespace NotePro.Controllers
             return View("Create");
         }
 
-        public IActionResult Edit(long id)
-        {
-            var todo = _context.Todos.FirstOrDefault(x => x.Id == id);
-            if (todo == null)
-            {
-                return NotFound();
-            }
-            return View("Edit", todo);
-        }
-
-        public IActionResult Update(long id, Todo todo)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Todos.Update(todo);
-                _context.SaveChanges();
-
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                return BadRequest();
-            }
-        }
-
         [ValidateAntiForgeryToken]
         [HttpPost]
         public IActionResult Create(Todo todo)
@@ -62,7 +37,6 @@ namespace NotePro.Controllers
             {
                 _context.Todos.Add(todo);
                 _context.SaveChanges();
-                
                 return RedirectToAction("Index");
             }
             else
@@ -71,11 +45,35 @@ namespace NotePro.Controllers
             }
         }
 
-        public IActionResult Sort(SortOrder sortOrder)
+        public IActionResult Edit(long? id)
         {
-            _httpContextAccessor.HttpContext.Session.SetString("Todos.SortOrder", sortOrder.ToString());
-            return PartialList();
-        }  
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var todo = _context.Todos.FirstOrDefault(x => x.Id == id);
+            if (todo == null)
+            {
+                return NotFound();
+            }
+            return View("Edit", todo);
+        }
+
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public IActionResult Edit(long id, Todo todo)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Todos.Update(todo);
+                _context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
 
         public IActionResult ToggleLayout()
         {
@@ -84,7 +82,15 @@ namespace NotePro.Controllers
             session.SetBoolean("Application.DefaultLayout", !defaultLayout);
             return Index();
         }
-    
+
+        [HttpPost]
+        public IActionResult Sort(SortOrder sortOrder)
+        {
+            _httpContextAccessor.HttpContext.Session.SetString("Todos.SortOrder", sortOrder.ToString());
+            return PartialList();
+        }
+
+        [HttpPost]
         public IActionResult ToggleShowFinished()
         {
             var session = _httpContextAccessor.HttpContext.Session;
@@ -92,35 +98,31 @@ namespace NotePro.Controllers
             session.SetBoolean("Todos.ShowFinished", !showFinished);
             return PartialList(); 
         }
+
         public IActionResult PartialList()
         {
-            var session = _httpContextAccessor.HttpContext.Session;
-            var sortOrder = session.GetString("Todos.SortOrder").ToEnum(SortOrder.FinishDate);
-            var showFinished = session.GetBoolean("Todos.ShowFinished", true);
-            return PartialView("ListContent", FindTodos(sortOrder, showFinished));
+            return PartialView("ListContent", _context.FindTodos(SortOrder(), ShowFinished()));
         }
-
 
         public IActionResult Index()
         {
-            
-            var session = _httpContextAccessor.HttpContext.Session;
-            var sortOrder = session.GetString("Todos.SortOrder").ToEnum(SortOrder.FinishDate);
-            var showFinished = session.GetBoolean("Todos.ShowFinished", true);
-            var todos = FindTodos(sortOrder, showFinished);
+            var sortOrder = SortOrder();
+            var showFinished = ShowFinished();
+            var todos = _context.FindTodos(sortOrder, showFinished);
             return View("Index", new TodoListViewModel { Todos = todos,SortOrder =sortOrder,  ShowFinished = showFinished});
         }
 
-
-        private List<Todo> FindTodos(SortOrder sortOrder, bool showFinished)
+        private bool ShowFinished()
         {
-            switch (sortOrder)
-            {
-                case SortOrder.FinishDate: return _context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.FinishDate).ToList();
-                case SortOrder.Priority: return _context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderByDescending(todo => todo.Priority).ToList();
-                case SortOrder.CreatedDate: return _context.Todos.Where(todo => todo.Finished == false || todo.Finished == showFinished).OrderBy(todo => todo.CreationDate).ToList();
-                default: throw new System.InvalidOperationException("Can't find sortOrder for enum: " + sortOrder);
-            }
+            var session = _httpContextAccessor.HttpContext.Session;
+            return session.GetBoolean("Todos.ShowFinished", true);
         }
+
+        public SortOrder SortOrder()
+        {
+            var session = _httpContextAccessor.HttpContext.Session;
+            return session.GetString("Todos.SortOrder").ToEnum(Models.TodoViewModels.SortOrder.FinishDate); ;
+        }
+
     }
 }
