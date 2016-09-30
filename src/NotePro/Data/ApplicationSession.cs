@@ -1,40 +1,40 @@
 ﻿using Microsoft.AspNetCore.Http;
 using NotePro.ExtensionMethods;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using NotePro.Models.TodoViewModels;
+using NotePro.Models;
 
-namespace NotePro.Controllers
+namespace NotePro.Data
 {
     public class ApplicationSession
     {
-        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ISession _session;
 
-        public ApplicationSession(IHttpContextAccessor httpContextAccessor)
+        public ApplicationSession(IHttpContextAccessor httpContextAccessor) : this (httpContextAccessor.HttpContext.Session)
         {
-            this._httpContextAccessor = httpContextAccessor;
+            
+        }
+
+        public ApplicationSession(ISession session)
+        {
+            this._session = session;
         }
 
         public bool DefaultLayout
         {
-            get { return Session.GetBoolean("Application.DefaultLayout", true); }
-            set { Session.SetBoolean("Application.DefaultLayout", value); }
+            get { return _session.GetBoolean("Application.DefaultLayout", true); }
+            set { _session.SetBoolean("Application.DefaultLayout", value); }
         }
 
         public SortOrder SortOrder
         {
-            get { return Session.GetString("Todos.SortOrder").ToEnum(Models.TodoViewModels.SortOrder.FinishDate); }
-            set { Session.SetString("Todos.SortOrder", value.ToString()); }
+            get { return _session.GetString("Todos.SortOrder").ToEnum(SortOrder.FinishDate); }
+            set { _session.SetString("Todos.SortOrder", value.ToString()); }
         }
 
         public bool ShowFinished
         {
-            get { return Session.GetBoolean("Todos.ShowFinished", true); }
-            set { Session.SetBoolean("Todos.ShowFinished", value); }
+            get { return _session.GetBoolean("Todos.ShowFinished", true); }
+            set { _session.SetBoolean("Todos.ShowFinished", value); }
         }
-
-        private ISession Session => _httpContextAccessor.HttpContext.Session;
+       
     }
 }

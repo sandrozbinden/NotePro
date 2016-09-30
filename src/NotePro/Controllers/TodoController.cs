@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using NotePro.Models.TodoViewModels;
 using NotePro.Models;
 using NotePro.Data;
 using Microsoft.AspNetCore.Http;
@@ -99,10 +98,7 @@ namespace NotePro.Controllers
 
         public IActionResult Index()
         {
-            var sortOrder = _session.SortOrder;
-            var showFinished = _session.ShowFinished;
-            var todos = _dbContext.Todos.Find(sortOrder, showFinished);
-            return View("Index", new TodoListViewModel { Todos = todos, SortOrder = sortOrder,  ShowFinished = showFinished });
+            return View("Index", _dbContext.Todos.Find(_session.SortOrder, _session.ShowFinished));
         }
     }
 }

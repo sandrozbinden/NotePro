@@ -1,7 +1,6 @@
-﻿@{
-    var defaultLayout = new Byte[20];
-    bool layoutStyleRead = Context.Session.TryGetValue("Application.DefaultLayout", out defaultLayout);
-    var isBlackAndBlueStyle = layoutStyleRead == true && !Convert.ToBoolean(BitConverter.ToInt32(defaultLayout, 0));
+﻿@using NotePro.Data
+@{
+    var session = new ApplicationSession(Context.Session);
 }   
 
 <!DOCTYPE html>
@@ -57,7 +56,7 @@
               asp-fallback-test-class="ui-tabs">
         <link rel="stylesheet" href="~/lib/eonasdan-bootstrap-datetimepicker/dist/bootstrap-datetimepicker.min.css" />
     </environment>
-    @if (isBlackAndBlueStyle)
+    @if (!session.DefaultLayout)
     {
         <link rel="stylesheet" href="~/css/theme_black_blue.css" />
     }

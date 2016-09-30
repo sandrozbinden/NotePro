@@ -1,4 +1,7 @@
-﻿@model NotePro.Models.TodoViewModels.TodoListViewModel
+﻿@model List<Todo>
+@{
+    var session = new ApplicationSession(Context.Session);
+}
 <div class="container">
     <div class="jumbotron">
         <h1>NotePro</h1>
@@ -12,16 +15,16 @@
     <div class="np-row np-collapsable-row">
         @foreach (SortOrder sortOrder in Enum.GetValues(typeof(SortOrder)))
         {
-            var cssActive = @Model.SortOrder == sortOrder ? "active" : "";
+            var cssActive = session.SortOrder == sortOrder ? "active" : "";
             <a asp-action="Sort" asp-controller="Todo" asp-route-sortOrder="@sortOrder" class="btn btn-default sort spreadable @(cssActive)" 	data-ajax-success="$(this).addClass('active').siblings('.sort').removeClass('active')" data-ajax="true" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#content">@sortOrder.GetName()</a>
         }
         <div class="splitter"></div>
         @{
-            var showFinishedCss = @Model.ShowFinished ? "" : "active";
+            var showFinishedCss = session.ShowFinished ? "" : "active";
         }
         <a asp-action="ToggleShowFinished" asp-controller="Todo" class="btn btn-default showFinished spreadable @(showFinishedCss)" data-ajax="true" data-ajax-success="$(this).toggleClass('active')" data-ajax-method="POST" data-ajax-mode="replace" data-ajax-update="#content">Hide Finished</a>
     </div>
     <div id="content">
-        @await Html.PartialAsync("ListContent", @Model.Todos)
+        @await Html.PartialAsync("ListContent", @Model)
     </div>
 </div>

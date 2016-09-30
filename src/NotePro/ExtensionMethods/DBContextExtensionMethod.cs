@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using NotePro.Data;
 using NotePro.Models;
-using NotePro.Models.TodoViewModels;
 
 
 namespace NotePro.ExtensionMethods
