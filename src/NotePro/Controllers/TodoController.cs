@@ -15,12 +15,12 @@ namespace NotePro.Controllers
 {
     public class TodoController : Controller
     {
-        private readonly ApplicationDbContext _context; 
+        private readonly ApplicationDbContext _dbContext; 
         private readonly ApplicationSession _session;
 
-        public TodoController(IHttpContextAccessor httpContextAccessor, ApplicationDbContext context)
+        public TodoController(IHttpContextAccessor httpContextAccessor, ApplicationDbContext dbContext)
         {
-            this._context = context;
+            this._dbContext = dbContext;
             this._session = new ApplicationSession(httpContextAccessor);
         }
 
@@ -35,8 +35,8 @@ namespace NotePro.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Todos.Add(todo);
-                _context.SaveChanges();
+                _dbContext.Todos.Add(todo);
+                _dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             else
@@ -51,7 +51,7 @@ namespace NotePro.Controllers
             {
                 return NotFound();
             }
-            var todo = _context.Todos.FirstOrDefault(x => x.Id == id);
+            var todo = _dbContext.Todos.FirstOrDefault(x => x.Id == id);
             if (todo == null)
             {
                 return NotFound();
@@ -65,8 +65,8 @@ namespace NotePro.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Todos.Update(todo);
-                _context.SaveChanges();
+                _dbContext.Todos.Update(todo);
+                _dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
             else
@@ -75,35 +75,34 @@ namespace NotePro.Controllers
             }
         }
 
-        public IActionResult ToggleLayout()
-        {
-            _session.DefaultLayout = !_session.DefaultLayout;
-            return Index();
-        }
-
         [HttpPost]
         public IActionResult Sort(SortOrder sortOrder)
         {
             _session.SortOrder = sortOrder;
-            return PartialList();
+            var todos = _dbContext.FindTodos(_session.SortOrder, _session.ShowFinished);
+            return PartialView("ListContent", todos);
         }
 
         [HttpPost]
         public IActionResult ToggleShowFinished()
         {
             _session.ShowFinished = !_session.ShowFinished;
-            return PartialList(); 
+            var todos = _dbContext.FindTodos(_session.SortOrder, _session.ShowFinished);
+            return PartialView("ListContent", todos);
         }
 
-        public IActionResult PartialList()
+        public IActionResult ToggleLayout()
         {
-            return PartialView("ListContent", _context.FindTodos(_session.SortOrder, _session.ShowFinished));
+            _session.DefaultLayout = !_session.DefaultLayout;
+            return Index();
         }
 
         public IActionResult Index()
         {
-            var todos = _context.FindTodos(_session.SortOrder, _session.ShowFinished);
-            return View("Index", new TodoListViewModel { Todos = todos,SortOrder = _session.SortOrder,  ShowFinished = _session.ShowFinished });
+            var sortOrder = _session.SortOrder;
+            var showFinished = _session.ShowFinished;
+            var todos = _dbContext.FindTodos(sortOrder, showFinished);
+            return View("Index", new TodoListViewModel { Todos = todos, SortOrder = sortOrder,  ShowFinished = showFinished });
         }
     }
 }
