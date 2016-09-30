@@ -36,15 +36,13 @@ namespace NotePro.Controllers
             {
                 return NotFound();
             }
-            var todoView = new TodoViewModel() { Id = todo.Id, Title = todo.Title, Text = todo.Text, FinishDate = todo.FinishDate, Priority = todo.Priority, Finished = todo.Finished };
-            return View("Edit", todoView);
+            return View("Edit", todo);
         }
 
-        public IActionResult Update(long id, TodoViewModel todoView)
+        public IActionResult Update(long id, Todo todo)
         {
             if (ModelState.IsValid)
             {
-                var todo = new Todo() { Id = todoView.Id, Title = todoView.Title, Text = todoView.Text, FinishDate = todoView.FinishDate, Priority = todoView.Priority, Finished = todoView.Finished };
                 _context.Todos.Update(todo);
                 _context.SaveChanges();
 
@@ -56,17 +54,12 @@ namespace NotePro.Controllers
             }
         }
 
-
-
-
-
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public IActionResult Create(TodoViewModel newTodo)
+        public IActionResult Create(Todo todo)
         {
             if (ModelState.IsValid)
             {
-                var todo = new Todo() { Title = newTodo.Title, Text = newTodo.Text, FinishDate= newTodo.FinishDate, Priority = newTodo.Priority, Finished = newTodo.Finished};
                 _context.Todos.Add(todo);
                 _context.SaveChanges();
                 

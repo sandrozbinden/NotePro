@@ -15,14 +15,22 @@ namespace NotePro.Models
    
         public long Id { get; set; }
 
+        [Display(Name = "Title")]
+        [Required]
+        [StringLength(200, MinimumLength = 1)]
         public string Title { get; set; }
 
+        [Display(Name = "Text")]
         public string Text { get; set; }
- 
+
+        [Required]
+        [Range(1, 5)]
         public int Priority { get; set; }
 
         public DateTime CreationDate { get; set; }
 
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
         public DateTime FinishDate { get; set; }
 
         public bool Finished { get; set; }
